@@ -30,7 +30,9 @@ SOURCES += \
     nodes/TriMeshNode.cpp \
     ui/ApplicationMainWindow.cpp \
     ui/OSGWidget.cpp \
-    main.cpp
+    main.cpp \
+    services/RandomColorGenerator.cpp \
+    modelObjects/ThreeDObject.cpp
 
 HEADERS  += \
     controllers/ApplicationManager.h \
@@ -51,7 +53,9 @@ HEADERS  += \
     nodes/CordinateSystemNode.h \
     nodes/TriMeshNode.h \
     ui/ApplicationMainWindow.h \
-    ui/OSGWidget.h
+    ui/OSGWidget.h \
+    services/RandomColorGenerator.h \
+    modelObjects/ThreeDObject.h
 
 FORMS    += \
     ui/ApplicationMainWindow.ui

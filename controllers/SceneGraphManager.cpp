@@ -24,12 +24,24 @@ SceneGraphManager::~SceneGraphManager()
 
 void SceneGraphManager::buildScene()
 {
-    osg::ref_ptr<osg::Group> rootGroup = new osg::Group;
-    rootGroup->setName("root");
+    mRootNode = osg::ref_ptr<osg::Group>(new osg::Group);
+    mRootNode->setName("root");
+
+    // Set material for basic lighting and enable depth tests. Else, the sphere
+    // will suffer from rendering errors.
+
+    auto stateSet = mRootNode->getOrCreateStateSet();
+    auto material = new osg::Material;
+
+    material->setColorMode( osg::Material::AMBIENT_AND_DIFFUSE );
+
+    stateSet->setAttributeAndModes( material, osg::StateAttribute::ON );
+    stateSet->setMode( GL_DEPTH_TEST, osg::StateAttribute::ON );
+
 
     auto cordinateSystemNode = new CoordinateSystemNode;
     cordinateSystemNode->setName("coordinate-system");
-    //rootGroup->addChild(cordinateSystemNode);
+    //mRootNode->addChild(cordinateSystemNode);
 
     // set the lights
     osg::ref_ptr<osg::Light> light = new osg::Light(0);
@@ -43,22 +55,11 @@ void SceneGraphManager::buildScene()
     lightSource->setLight(light);
     lightSource->setName("light-source");
 
-    rootGroup->addChild(lightSource);
+    mRootNode->addChild(lightSource);
 
     m3DSurfacesGroup = new osg::Group;
     m3DSurfacesGroup->setName("surface-group");
-    rootGroup->addChild(m3DSurfacesGroup);
-
-    // Set material for basic lighting and enable depth tests. Else, the sphere
-    // will suffer from rendering errors.
-
-    auto stateSet = rootGroup->getOrCreateStateSet();
-    auto material = new osg::Material;
-
-    material->setColorMode( osg::Material::AMBIENT_AND_DIFFUSE );
-
-    stateSet->setAttributeAndModes( material, osg::StateAttribute::ON );
-    stateSet->setMode( GL_DEPTH_TEST, osg::StateAttribute::ON );
+    mRootNode->addChild(m3DSurfacesGroup);
 }
 
 osg::Node *SceneGraphManager::getRootNode()

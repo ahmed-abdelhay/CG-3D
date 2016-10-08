@@ -1,10 +1,11 @@
 #include "TriMeshNode.h"
+
+#include <osg/Geometry>
+
 #include "infrastructure/Common.h"
 #include "infrastructure/ApplicationContext.h"
 #include "modelObjects/ThreeDObject.h"
 #include "core/TriMesh.h"
-
-#include <osg/Geometry>
 
 TriMeshNode::TriMeshNode()
     : osg::Geode(),

@@ -6,8 +6,8 @@
 #include "infrastructure/ContainerChangedHandler.h"
 #include "infrastructure/EventHandler.h"
 
-namespace osg {class Node;}
 namespace osg {class Group;}
+namespace osg {class Node;}
 
 class SceneGraphManager : public EventHandler, public ContainerChangedHandler,
         public ApplicationContextProvider
@@ -25,6 +25,6 @@ public:
     void notify(const std::shared_ptr<Event> &fEvent) override;
 
 private:
-    osg::ref_ptr<osg::Node> mRootNode;
+    osg::ref_ptr<osg::Group> mRootNode;
     osg::ref_ptr<osg::Group> m3DSurfacesGroup;
 };

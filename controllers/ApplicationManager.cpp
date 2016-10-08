@@ -1,6 +1,7 @@
 #include "ApplicationManager.h"
 #include "infrastructure/ApplicationContext.h"
 #include "SceneGraphManager.h"
+#include "MeshIOController.h"
 
 #include <osg/Node>
 
@@ -16,7 +17,9 @@ ApplicationManager::~ApplicationManager()
 
 void ApplicationManager::initializeControllers()
 {
-
+    auto meshIOController = std::make_shared<MeshIOController>();
+    meshIOController->setContext(mContext.get());
+    mContext->dataStore()->insertObject(meshIOController);
 }
 
 void ApplicationManager::initializeSceneGraph()
@@ -24,7 +27,8 @@ void ApplicationManager::initializeSceneGraph()
     std::shared_ptr<SceneGraphManager> sceneGraphManager(new SceneGraphManager());
     sceneGraphManager->setContext(mContext.get());
     mContext->dataStore()->insertObject(sceneGraphManager);
-    mSceneGraphRootNode = osg::ref_ptr<osg::Node>(sceneGraphManager->buildScene());
+    sceneGraphManager->buildScene();
+    mSceneGraphRootNode = osg::ref_ptr<osg::Node>(sceneGraphManager->getRootNode());
 }
 
 osg::ref_ptr<osg::Node> ApplicationManager::getSceneGraphRootNode()

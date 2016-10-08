@@ -1,4 +1,5 @@
 #include "ThreeDObject.h"
+#include "infrastructure/Common.h"
 
 ThreeDObject::ThreeDObject()
 {}
@@ -23,15 +24,18 @@ std::shared_ptr<TriMesh> ThreeDObject::getMesh() const
 
 void ThreeDObject::setColor(QColor fColor)
 {
-    fColor = fColor;
+    mColor = fColor;
+    emit propertyChanged(this, ColorType);
 }
 
 void ThreeDObject::setName(std::string fName)
 {
-    fName = fName;
+    mName = fName;
+    emit propertyChanged(this, NameType);
 }
 
 void ThreeDObject::setMesh(const std::shared_ptr<TriMesh>& fMesh)
 {
     mMesh = fMesh;
+    emit propertyChanged(this, MeshType);
 }

@@ -11,9 +11,10 @@
 class ThreeDObject : public ModelObject
 {
     Q_OBJECT
-    Q_PROPERTY(QColor color READ getColor  WRITE setColor)
-    Q_PROPERTY(std::string name READ getName  WRITE setName)
-    Q_PROPERTY(std::shared_ptr<TriMesh> mesh READ getMesh  WRITE setMesh)
+
+    Q_PROPERTY(QColor Color READ getColor  WRITE setColor)
+    Q_PROPERTY(std::string Name READ getName  WRITE setName)
+    Q_PROPERTY(std::shared_ptr<TriMesh> Mesh READ getMesh  WRITE setMesh)
 
 public:
     ThreeDObject();

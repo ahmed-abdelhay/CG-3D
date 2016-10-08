@@ -1,16 +1,14 @@
 #include "SceneGraphManager.h"
 #include "infrastructure/ApplicationContext.h"
+#include "modelObjects/ThreeDObject.h"
+
+#include "nodes/CordinateSystemNode.h"
+#include "nodes/TriMeshNode.h"
 
 #include <osg/Light>
 #include <osg/LightSource>
 #include <osg/Group>
 #include <osg/Material>
-
-#include "nodes/CordinateSystemNode.h"
-
-//#include <OpenMesh/Core/IO/MeshIO.hh>
-//#include "TriMesh.h"
-//#include "TriMeshNode.h"
 
 SceneGraphManager::SceneGraphManager()
 {}
@@ -24,15 +22,14 @@ SceneGraphManager::~SceneGraphManager()
     }
 }
 
-osg::Node *SceneGraphManager::buildScene()
+void SceneGraphManager::buildScene()
 {
-
     osg::ref_ptr<osg::Group> rootGroup = new osg::Group;
     rootGroup->setName("root");
 
     auto cordinateSystemNode = new CoordinateSystemNode;
     cordinateSystemNode->setName("coordinate-system");
-    rootGroup->addChild(cordinateSystemNode);
+    //rootGroup->addChild(cordinateSystemNode);
 
     // set the lights
     osg::ref_ptr<osg::Light> light = new osg::Light(0);
@@ -48,28 +45,9 @@ osg::Node *SceneGraphManager::buildScene()
 
     rootGroup->addChild(lightSource);
 
-    osg::ref_ptr<osg::Group> surfaceGroup = new osg::Group;
-    surfaceGroup->setName("surface-group");
-
-
-    //    std::string meshFileName = "/home/ahmed/Desktop/bunny.ply";
-    //    TriMesh mesh;
-    //    auto f =  OpenMesh::IO::read_mesh(mesh, meshFileName);
-    //    auto meshNode = new TriMeshNode(mesh);
-    //    meshNode->setColor(osg::Vec4(1,0,0,1));
-    //    meshNode->update();
-
-    //    for (auto vh: mesh.vertices())
-    //        mesh.set_point(vh, mesh.point(vh) + 0.5*OpenMesh::Vec3f(1,1,1));
-
-    //    auto meshNode1 = new TriMeshNode(mesh);
-    //    meshNode1->setColor(osg::Vec4(1,1,0,1));
-    //    meshNode1->update();
-
-    //    surfaceGroup->addChild(meshNode);
-    //    surfaceGroup->addChild(meshNode1);
-
-    rootGroup->addChild(surfaceGroup);
+    m3DSurfacesGroup = new osg::Group;
+    m3DSurfacesGroup->setName("surface-group");
+    rootGroup->addChild(m3DSurfacesGroup);
 
     // Set material for basic lighting and enable depth tests. Else, the sphere
     // will suffer from rendering errors.
@@ -81,8 +59,11 @@ osg::Node *SceneGraphManager::buildScene()
 
     stateSet->setAttributeAndModes( material, osg::StateAttribute::ON );
     stateSet->setMode( GL_DEPTH_TEST, osg::StateAttribute::ON );
+}
 
-    return rootGroup.release();
+osg::Node *SceneGraphManager::getRootNode()
+{
+    return mRootNode.get();
 }
 
 void SceneGraphManager::setContext(ApplicationContext *fContext)
@@ -97,7 +78,38 @@ void SceneGraphManager::setContext(ApplicationContext *fContext)
 
 void SceneGraphManager::notifyContainerChanged(const std::shared_ptr<Type> &fObject, ContainerChangeType fChangeType)
 {
-
+    if(fObject->metaObject()->className() == ThreeDObjectType)
+    {
+        switch (fChangeType)
+        {
+        case ContainerChangeType::OBJECT_ADDED:
+            if (auto threeDObject = dynamic_cast<ThreeDObject*>(fObject.get()))
+            {
+                auto threeDObjectNode = new TriMeshNode(threeDObject->getID(), threeDObject->getMesh(), threeDObject->getColor());
+                m3DSurfacesGroup->addChild(threeDObjectNode);
+                threeDObjectNode->update();
+            }
+            break;
+        case ContainerChangeType::OBJECT_REMOVED:
+            if (auto threeDObject = dynamic_cast<ThreeDObject*>(fObject.get()))
+            {
+                auto objectID = threeDObject->getID();
+                auto surfaceNodesCount = m3DSurfacesGroup->getNumChildren();
+                for (unsigned int i = 0; i < surfaceNodesCount; ++i)
+                {
+                    if (auto node = dynamic_cast<TriMeshNode*>(m3DSurfacesGroup->getChild(i)))
+                    {
+                        if (node->get3DobjectID() == objectID)
+                        {
+                            m3DSurfacesGroup->removeChild(i);
+                            return;
+                        }
+                    }
+                }
+            }
+            break;
+        }
+    }
 }
 
 void SceneGraphManager::notify(const std::shared_ptr<Event> &fEvent)

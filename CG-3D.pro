@@ -32,7 +32,10 @@ SOURCES += \
     ui/OSGWidget.cpp \
     main.cpp \
     services/RandomColorGenerator.cpp \
-    modelObjects/ThreeDObject.cpp
+    modelObjects/ThreeDObject.cpp \
+    controllers/MeshIOController.cpp \
+    events/Read3DObjectEvent.cpp \
+    events/Write3DObjectEvent.cpp
 
 HEADERS  += \
     controllers/ApplicationManager.h \
@@ -55,7 +58,10 @@ HEADERS  += \
     ui/ApplicationMainWindow.h \
     ui/OSGWidget.h \
     services/RandomColorGenerator.h \
-    modelObjects/ThreeDObject.h
+    modelObjects/ThreeDObject.h \
+    controllers/MeshIOController.h \
+    events/Read3DObjectEvent.h \
+    events/Write3DObjectEvent.h
 
 FORMS    += \
     ui/ApplicationMainWindow.ui

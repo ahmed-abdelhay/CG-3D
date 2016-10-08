@@ -12,7 +12,12 @@ void ApplicationDatastore::insertObject(const std::shared_ptr<Type> &fObject)
     emit containerChanged(fObject, ContainerChangeType::OBJECT_ADDED);
 
     if(auto modelObject = dynamic_cast<ModelObject*>(fObject.get()))
-        connect(modelObject, SIGNAL(propertyChanged), this, SIGNAL(propertyChanged));
+    {
+        connect(modelObject,
+                SIGNAL(propertyChanged(Type*,std::string)),
+                this,
+                SIGNAL(modelObjectPropertyChanged(Type*,std::string)));
+    }
 }
 
 void ApplicationDatastore::removeObject(const std::shared_ptr<Type> &fObject)

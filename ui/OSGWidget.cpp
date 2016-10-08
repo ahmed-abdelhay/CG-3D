@@ -1,5 +1,4 @@
 #include "OSGWidget.h"
-#include "PickHandler.h"
 
 #include <osg/Camera>
 
@@ -28,8 +27,6 @@
 #include <QKeyEvent>
 #include <QPainter>
 #include <QWheelEvent>
-
-#include "SceneGraphManager.h"
 
 OSGWidget::OSGWidget(QWidget* parent, Qt::WindowFlags f)
     : QOpenGLWidget(parent, f)

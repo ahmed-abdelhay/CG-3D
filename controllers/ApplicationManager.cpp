@@ -1,5 +1,5 @@
 #include "ApplicationManager.h"
-#include "ApplicationContext.h"
+#include "infrastructure/ApplicationContext.h"
 #include "SceneGraphManager.h"
 
 #include <osg/Node>

@@ -1,6 +1,6 @@
 #include "ApplicationMainWindow.h"
 #include "OSGWidget.h"
-#include "ApplicationManager.h"
+#include "controllers/ApplicationManager.h"
 
 #include <QOpenGLWidget>
 #include <QSpinBox>

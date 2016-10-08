@@ -1,12 +1,12 @@
 #include "SceneGraphManager.h"
-#include "ApplicationContext.h"
+#include "infrastructure/ApplicationContext.h"
 
 #include <osg/Light>
 #include <osg/LightSource>
 #include <osg/Group>
 #include <osg/Material>
 
-#include "CordinateSystemNode.h"
+#include "nodes/CordinateSystemNode.h"
 
 //#include <OpenMesh/Core/IO/MeshIO.hh>
 //#include "TriMesh.h"

@@ -1,8 +1,8 @@
 #pragma once
 
-#include "ApplicationContextProvider.h"
-#include "ContainerChangedHandler.h"
-#include "EventHandler.h"
+#include "infrastructure/ApplicationContextProvider.h"
+#include "infrastructure/ContainerChangedHandler.h"
+#include "infrastructure/EventHandler.h"
 
 namespace osg {class Node;}
 

@@ -1,8 +1,8 @@
 #pragma once
 
 #include <osg/Geode>
-#include "TriMesh.h"
-#include "Type.h"
+#include "core/TriMesh.h"
+#include "infrastructure/Type.h"
 
 class TriMeshNode : public osg::Geode , public Type
 {

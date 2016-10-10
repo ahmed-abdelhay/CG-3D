@@ -64,7 +64,7 @@ HEADERS  += \
     events/Write3DObjectEvent.h
 
 FORMS    += \
-    ui/ApplicationMainWindow.ui
+    ui/MainWindow.ui
 
 LIBS += -lOpenThreads -losgViewer -losgText -losg -losgQt -losgUtil -losgDB -lOpenMeshCore -lOpenMeshTools -losgGA
 

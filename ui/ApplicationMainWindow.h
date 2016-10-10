@@ -1,13 +1,13 @@
 #pragma once
 
-#include <QWidget>
+#include <QMainWindow>
 #include <memory>
-#include "ui_ApplicationMainWindow.h"
 
 class ApplicationManager;
 class QOpenGLWidget;
+namespace Ui{ class MainWindow;}
 
-class ApplicationMainWindow : public QWidget
+class ApplicationMainWindow : public QMainWindow
 {
     Q_OBJECT
 public:
@@ -18,5 +18,5 @@ private:
     QOpenGLWidget* mRenderingWidget;
     std::unique_ptr<ApplicationManager> mApplicationManager;
 
-    Ui::MainWindow mUi;
+    Ui::MainWindow* mUi;
 };

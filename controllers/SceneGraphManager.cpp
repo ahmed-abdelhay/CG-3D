@@ -24,7 +24,7 @@ SceneGraphManager::~SceneGraphManager()
 
 void SceneGraphManager::buildScene()
 {
-    mRootNode = osg::ref_ptr<osg::Group>(new osg::Group);
+    mRootNode = new osg::Group;
     mRootNode->setName("root");
 
     // Set material for basic lighting and enable depth tests. Else, the sphere
@@ -37,7 +37,6 @@ void SceneGraphManager::buildScene()
 
     stateSet->setAttributeAndModes( material, osg::StateAttribute::ON );
     stateSet->setMode( GL_DEPTH_TEST, osg::StateAttribute::ON );
-
 
     auto cordinateSystemNode = new CoordinateSystemNode;
     cordinateSystemNode->setName("coordinate-system");

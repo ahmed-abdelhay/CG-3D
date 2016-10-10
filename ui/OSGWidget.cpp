@@ -29,24 +29,21 @@
 #include <QWheelEvent>
 
 OSGWidget::OSGWidget(QWidget* parent, Qt::WindowFlags f)
-    : QOpenGLWidget(parent, f)
-    , mGraphicsWindow(new osgViewer::GraphicsWindowEmbedded(x(), y(), width(), height()))
-    , mViewer(new osgViewer::CompositeViewer)
+    : QOpenGLWidget(parent, f),
+      mGraphicsWindow(new osgViewer::GraphicsWindowEmbedded(x(), y(), parent->width(), parent->height())),
+      mViewer(new osgViewer::CompositeViewer)
 {
-    auto aspectRatio = width() / (2.0f * height());
+    auto aspectRatio = width() / static_cast<float>(height());
 
     osg::Camera* camera = new osg::Camera;
-    camera->setViewport( 0, 0, this->width(), this->height() );
-    camera->setClearColor( osg::Vec4( 0.9f, 0.9f, 0.9f, 1.f ) );
-    camera->setProjectionMatrixAsPerspective( 30.f, aspectRatio, 1.f, 1000.f );
+    camera->setViewport(x(), y(), width(), height());
+    camera->setClearColor(osg::Vec4( 0.9f, 0.9f, 0.9f, 1.f ) );
+    camera->setProjectionMatrixAsPerspective(30.f, aspectRatio, 1.f, 1000.f);
     camera->setGraphicsContext(mGraphicsWindow);
 
     osgViewer::View* view = new osgViewer::View;
     view->setCamera(camera);
     view->addEventHandler(new osgViewer::StatsHandler);
-#ifdef WITH_PICK_HANDLER
-    view->addEventHandler(new PickHandler);
-#endif
 
     osgGA::TrackballManipulator* manipulator = new osgGA::TrackballManipulator;
     manipulator->setAllowThrow( false );
@@ -54,15 +51,14 @@ OSGWidget::OSGWidget(QWidget* parent, Qt::WindowFlags f)
     view->setCameraManipulator( manipulator );
 
     mViewer->addView( view );
-    //viewer_->addView( sideView );
-    mViewer->setThreadingModel( osgViewer::CompositeViewer::SingleThreaded );
+    mViewer->setThreadingModel(osgViewer::CompositeViewer::SingleThreaded);
     mViewer->realize();
 
     // This ensures that the widget will receive keyboard events. This focus
     // policy is not set by default. The default, Qt::NoFocus, will result in
     // keyboard events that are ignored.
     setFocusPolicy(Qt::StrongFocus);
-    setMinimumSize(100, 100);
+    setMinimumSize(width(), height());
 
     // Ensures that the widget receives mouse move events even though no
     // mouse button has been pressed. We require this in order to let the
@@ -83,8 +79,8 @@ void OSGWidget::paintEvent( QPaintEvent* /* paintEvent */ )
 {
     this->makeCurrent();
 
-    QPainter painter( this );
-    painter.setRenderHint( QPainter::Antialiasing );
+    QPainter painter(this);
+    painter.setRenderHint(QPainter::Antialiasing);
 
     this->paintGL();
 
@@ -246,11 +242,11 @@ void OSGWidget::onHome()
     }
 }
 
-void OSGWidget::onResize( int width, int height )
+void OSGWidget::onResize(int width, int height)
 {
     std::vector<osg::Camera*> cameras;
     mViewer->getCameras( cameras );
-    cameras[0]->setViewport( 0, 0, width, height);
+    cameras[0]->setViewport(x(), y(), width, height);
 }
 
 osgGA::EventQueue* OSGWidget::getEventQueue() const

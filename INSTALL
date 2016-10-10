@@ -1,0 +1,10 @@
+the project dependacies:
+1- OpenMesh: the half-edge datastructure used to describe 3D surfaces http://openmesh.org/ 
+2- OpenSceneGraph: a scene graph management library http://www.openscenegraph.org/
+3- Qt 5.7 https://www.qt.io/
+
+the project is now using Qt Creator but I plan to use CMake in the future
+
+for any info please contact me ahmedabdelhay6339@gmail.com
+
+

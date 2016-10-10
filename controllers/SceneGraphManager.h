@@ -2,6 +2,7 @@
 
 #include <osg/ref_ptr>
 
+#include "infrastructure/Type.h"
 #include "infrastructure/ApplicationContextProvider.h"
 #include "infrastructure/ContainerChangedHandler.h"
 #include "infrastructure/EventHandler.h"
@@ -9,7 +10,7 @@
 namespace osg {class Group;}
 namespace osg {class Node;}
 
-class SceneGraphManager : public EventHandler, public ContainerChangedHandler,
+class SceneGraphManager : public Type, public EventHandler, public ContainerChangedHandler,
         public ApplicationContextProvider
 {
 public:

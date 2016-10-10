@@ -35,7 +35,8 @@ SOURCES += \
     modelObjects/ThreeDObject.cpp \
     controllers/MeshIOController.cpp \
     events/Read3DObjectEvent.cpp \
-    events/Write3DObjectEvent.cpp
+    events/Write3DObjectEvent.cpp \
+    ui/MeshIOControlWidget.cpp
 
 HEADERS  += \
     controllers/ApplicationManager.h \
@@ -61,10 +62,12 @@ HEADERS  += \
     modelObjects/ThreeDObject.h \
     controllers/MeshIOController.h \
     events/Read3DObjectEvent.h \
-    events/Write3DObjectEvent.h
+    events/Write3DObjectEvent.h \
+    ui/MeshIOControlWidget.h
 
 FORMS    += \
-    ui/MainWindow.ui
+    ui/MainWindow.ui \
+    ui/MeshIOControlWidtet.ui
 
 LIBS += -lOpenThreads -losgViewer -losgText -losg -losgQt -losgUtil -losgDB -lOpenMeshCore -lOpenMeshTools -losgGA
 

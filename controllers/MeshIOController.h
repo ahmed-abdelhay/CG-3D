@@ -3,6 +3,7 @@
 #include <memory>
 #include <string>
 
+#include "infrastructure/Type.h"
 #include "infrastructure/ApplicationContextProvider.h"
 #include "infrastructure/EventHandler.h"
 
@@ -10,7 +11,7 @@ class Read3DObjectEvent;
 class Write3DObjectEvent;
 
 // handle all the 3D objects I/O operations
-class MeshIOController : public ApplicationContextProvider, public EventHandler
+class MeshIOController : public Type, public ApplicationContextProvider, public EventHandler
 {
 public:
     MeshIOController();

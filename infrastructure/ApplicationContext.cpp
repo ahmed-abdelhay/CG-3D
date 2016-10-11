@@ -2,6 +2,7 @@
 #include <string>
 
 #include "ApplicationDatastore.h"
+#include "infrastructure/Type.h"
 
 ApplicationContext::ApplicationContext()
     :mDataStore(new ApplicationDatastore())
@@ -23,4 +24,14 @@ ApplicationContext::~ApplicationContext()
 ApplicationDatastore *ApplicationContext::dataStore()
 {
     return mDataStore.get();
+}
+
+void ApplicationContext::setSelectedObject(Type *fSelectedObject)
+{
+    mSelectedObject = fSelectedObject;
+}
+
+Type *ApplicationContext::getSelectedObject()
+{
+    return mSelectedObject;
 }

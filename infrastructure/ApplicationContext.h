@@ -6,6 +6,7 @@
 #include <memory>
 
 class ApplicationDatastore;
+class Type;
 
 class ApplicationContext : public EventPublisher, public ContextChangedPublisher
 {
@@ -15,6 +16,11 @@ public:
 
     ApplicationDatastore *dataStore();
 
+    // Selection managmenet logic (TODO add into a manager class later)
+    void setSelectedObject(Type* fSelectedObject);
+    Type *getSelectedObject();
+
 private:
     std::unique_ptr<ApplicationDatastore> mDataStore;
+    Type* mSelectedObject;
 };

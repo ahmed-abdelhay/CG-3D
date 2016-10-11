@@ -15,6 +15,11 @@ public:
     virtual ~ApplicationMainWindow();
 
 private:
+    enum class ToolsTabsNames: int
+    {
+        SURFACS_LIST_TAB = 0
+    };
+
     QOpenGLWidget* mRenderingWidget;
     std::unique_ptr<ApplicationManager> mApplicationManager;
 

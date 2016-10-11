@@ -93,17 +93,8 @@
            </sizepolicy>
           </property>
           <property name="currentIndex">
-           <number>0</number>
+           <number>-1</number>
           </property>
-          <widget class="QWidget" name="surfacesList">
-           <attribute name="icon">
-            <iconset resource="../cg-3d.qrc">
-             <normaloff>:/icons/resources/icons/3D objects list.ico</normaloff>:/icons/resources/icons/3D objects list.ico</iconset>
-           </attribute>
-           <attribute name="title">
-            <string>3D surfaces list</string>
-           </attribute>
-          </widget>
          </widget>
         </item>
        </layout>

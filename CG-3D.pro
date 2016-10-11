@@ -36,7 +36,8 @@ SOURCES += \
     controllers/MeshIOController.cpp \
     events/Read3DObjectEvent.cpp \
     events/Write3DObjectEvent.cpp \
-    ui/MeshIOControlWidget.cpp
+    ui/MeshIOControlWidget.cpp \
+    ui/Q3DSurfacesListWidget.cpp
 
 HEADERS  += \
     controllers/ApplicationManager.h \
@@ -63,7 +64,8 @@ HEADERS  += \
     controllers/MeshIOController.h \
     events/Read3DObjectEvent.h \
     events/Write3DObjectEvent.h \
-    ui/MeshIOControlWidget.h
+    ui/MeshIOControlWidget.h \
+    ui/Q3DSurfacesListWidget.h
 
 FORMS    += \
     ui/MainWindow.ui \

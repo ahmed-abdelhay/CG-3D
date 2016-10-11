@@ -58,7 +58,7 @@ void MeshIOController::handleRead3DObjectEvent(const std::shared_ptr<Read3DObjec
 
 void MeshIOController::handleWrite3DObjectEvent(const std::shared_ptr<Write3DObjectEvent> &fEvent)
 {
-
+    OpenMesh::IO::write_mesh(*fEvent->object->getMesh(), fEvent->meshFileName);
 }
 
 std::string MeshIOController::getMeshNameFromFileName(const std::string &fFileName) const

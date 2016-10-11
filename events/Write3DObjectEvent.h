@@ -12,5 +12,5 @@ public:
     Write3DObjectEvent();
 
     std::string meshFileName;
-    std::shared_ptr<ThreeDObject> object;
+    ThreeDObject* object;
 };

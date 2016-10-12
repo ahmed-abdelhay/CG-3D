@@ -18,6 +18,7 @@ public:
 
     void insertObject(const std::shared_ptr<Type>& fObject);
     void removeObject(const std::shared_ptr<Type>& fObject);
+    void removeObject(size_t fObjectID);
 
     void clearDataStore();
 

@@ -4,6 +4,7 @@
         <file>resources/icons/save.svg</file>
         <file>resources/icons/cg-3d icon</file>
         <file>resources/icons/3D objects list.ico</file>
+        <file>resources/icons/delete.svg</file>
     </qresource>
     <qresource prefix="/images"/>
 </RCC>

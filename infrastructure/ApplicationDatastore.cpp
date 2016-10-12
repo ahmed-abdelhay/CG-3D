@@ -26,10 +26,22 @@ void ApplicationDatastore::removeObject(const std::shared_ptr<Type> &fObject)
     auto itr = std::find(mDataStore.begin(), mDataStore.end(), fObject);
     if (itr != mDataStore.end())
     {
+        emit containerChanged(fObject, ContainerChangeType::OBJECT_REMOVED);
         auto index = std::distance(mDataStore.begin(), itr) - 1;
         std::swap(mDataStore[index], mDataStore.back());
         mDataStore.pop_back();
-        emit containerChanged(fObject, ContainerChangeType::OBJECT_REMOVED);
+    }
+}
+
+void ApplicationDatastore::removeObject(size_t fObjectID)
+{
+    for(const auto& object : mDataStore)
+    {
+        if (object->getID() == fObjectID)
+        {
+            removeObject(object);
+            return;
+        }
     }
 }
 

@@ -19,6 +19,7 @@ public:
 public slots:
     void on_actionLoadMeshClicked_triggered();
     void on_actionSaveMeshClicked_triggered();
+    void on_actionDeleteMeshClicked_triggered();
 
 private:
     Ui::MeshIOControlWidget* mUi;

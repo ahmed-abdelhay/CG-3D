@@ -8,6 +8,7 @@
 #include "ui_MeshIOControlWidtet.h"
 #include "events/Read3DObjectEvent.h"
 #include "events/Write3DObjectEvent.h"
+#include "events/DeleteSelected3DObjectEvent.h"
 
 MeshIOControlWidget::MeshIOControlWidget(QWidget *parent)
     : QWidget(parent),
@@ -54,4 +55,10 @@ void MeshIOControlWidget::on_actionSaveMeshClicked_triggered()
     writeMeshEvent->object = selectedObject;
     writeMeshEvent->meshFileName = meshFileName.toStdString();
     mContext->publish(writeMeshEvent);
+}
+
+void MeshIOControlWidget::on_actionDeleteMeshClicked_triggered()
+{
+    auto deleteSelectedMeshEvent = std::make_shared<DeleteSelected3DObjectEvent>();
+    mContext->publish(deleteSelectedMeshEvent);
 }

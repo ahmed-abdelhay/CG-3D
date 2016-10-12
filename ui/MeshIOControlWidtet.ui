@@ -73,6 +73,26 @@
     </widget>
    </item>
    <item>
+    <widget class="QToolButton" name="deleteMeshButton">
+     <property name="toolTip">
+      <string>Delete 3D surface</string>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+     <property name="icon">
+      <iconset resource="../cg-3d.qrc">
+       <normaloff>:/icons/resources/icons/delete.svg</normaloff>:/icons/resources/icons/delete.svg</iconset>
+     </property>
+     <property name="iconSize">
+      <size>
+       <width>30</width>
+       <height>30</height>
+      </size>
+     </property>
+    </widget>
+   </item>
+   <item>
     <spacer name="horizontalSpacer">
      <property name="orientation">
       <enum>Qt::Horizontal</enum>
@@ -94,6 +114,11 @@
   <action name="actionSaveMeshClicked">
    <property name="text">
     <string>saveMeshClicked</string>
+   </property>
+  </action>
+  <action name="actionDeleteMeshClicked">
+   <property name="text">
+    <string>deleteMeshClicked</string>
    </property>
   </action>
  </widget>
@@ -126,6 +151,22 @@
     <hint type="sourcelabel">
      <x>68</x>
      <y>20</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>deleteMeshButton</sender>
+   <signal>clicked()</signal>
+   <receiver>actionDeleteMeshClicked</receiver>
+   <slot>trigger()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>112</x>
+     <y>24</y>
     </hint>
     <hint type="destinationlabel">
      <x>-1</x>

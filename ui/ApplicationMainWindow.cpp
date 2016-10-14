@@ -5,17 +5,20 @@
 #include "ui/Q3DSurfacesListWidget.h"
 #include "ui_MainWindow.h"
 
-#include <QOpenGLWidget>
 #include <QListWidget>
+#include <QMdiSubWindow>
 
 ApplicationMainWindow::ApplicationMainWindow(QWidget* fParent, Qt::WindowFlags fFlags)
     : QMainWindow(fParent, fFlags),
       mApplicationManager (new ApplicationManager()),
+      mRenderingWidget(new OSGWidget(this, fFlags)),
       mUi(new Ui::MainWindow())
 {
     mUi->setupUi(this);
-    mRenderingWidget = new OSGWidget(mUi->renderingArea, fFlags);
-    mRenderingWidget->resize(mUi->renderingArea->width(), mUi->renderingArea->height());
+
+    auto renderingSubWindow = mUi->renderingArea->addSubWindow(mRenderingWidget);
+    renderingSubWindow->showMaximized();
+
     mRenderingWidget->update();
 
     if (auto osgRenderingWidget = dynamic_cast<OSGWidget*>(mRenderingWidget))

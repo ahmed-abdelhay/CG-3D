@@ -4,7 +4,7 @@
 #include <memory>
 
 class ApplicationManager;
-class QOpenGLWidget;
+class OSGWidget;
 namespace Ui{ class MainWindow;}
 
 class ApplicationMainWindow : public QMainWindow
@@ -20,7 +20,7 @@ private:
         SURFACS_LIST_TAB = 0
     };
 
-    QOpenGLWidget* mRenderingWidget;
+    OSGWidget* mRenderingWidget;
     std::unique_ptr<ApplicationManager> mApplicationManager;
 
     Ui::MainWindow* mUi;

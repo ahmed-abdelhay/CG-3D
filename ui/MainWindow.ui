@@ -99,20 +99,7 @@
         </item>
        </layout>
       </widget>
-      <widget class="QOpenGLWidget" name="renderingArea">
-       <property name="sizePolicy">
-        <sizepolicy hsizetype="MinimumExpanding" vsizetype="MinimumExpanding">
-         <horstretch>0</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
-       </property>
-       <property name="minimumSize">
-        <size>
-         <width>1118</width>
-         <height>666</height>
-        </size>
-       </property>
-      </widget>
+      <widget class="QMdiArea" name="renderingArea"/>
      </widget>
     </item>
    </layout>

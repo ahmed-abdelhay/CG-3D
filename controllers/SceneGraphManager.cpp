@@ -86,6 +86,7 @@ void SceneGraphManager::notifyContainerChanged(const std::shared_ptr<Type> &fObj
             if (auto threeDObject = dynamic_cast<ThreeDObject*>(fObject.get()))
             {
                 auto threeDObjectNode = new TriMeshNode(threeDObject->getID(), threeDObject->getMesh(), threeDObject->getColor());
+                threeDObjectNode->setContext(context());
                 m3DSurfacesGroup->addChild(threeDObjectNode);
                 threeDObjectNode->update();
             }

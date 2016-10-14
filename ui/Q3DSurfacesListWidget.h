@@ -2,6 +2,7 @@
 
 #include <vector>
 #include <QListWidget>
+#include <QModelIndex>
 
 #include "infrastructure/ApplicationContextProvider.h"
 #include "infrastructure/PropertyChangedHandler.h"
@@ -22,6 +23,7 @@ public:
 
 public slots:
     void selectionChanged();
+    void changeColor(QModelIndex fIndex);
 
 private:
     std::vector<Type*> mSurfacesList;

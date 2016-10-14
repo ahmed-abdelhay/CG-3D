@@ -2,6 +2,7 @@
 #include "infrastructure/ApplicationContext.h"
 #include "SceneGraphManager.h"
 #include "MeshIOController.h"
+#include "ThreeDObjectsController.h"
 
 #include <osg/Node>
 
@@ -20,6 +21,10 @@ void ApplicationManager::initializeControllers()
     auto meshIOController = std::make_shared<MeshIOController>();
     meshIOController->setContext(mContext.get());
     mContext->dataStore()->insertObject(meshIOController);
+
+    auto threeDObjectsController = std::make_shared<ThreeDObjectsController>();
+    threeDObjectsController->setContext(mContext.get());
+    mContext->dataStore()->insertObject(threeDObjectsController);
 }
 
 void ApplicationManager::initializeSceneGraph()

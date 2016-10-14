@@ -9,7 +9,6 @@
 
 class Read3DObjectEvent;
 class Write3DObjectEvent;
-class DeleteSelected3DObjectEvent;
 
 // handle all the 3D objects I/O operations
 class MeshIOController : public Type, public ApplicationContextProvider, public EventHandler
@@ -24,7 +23,6 @@ public:
 private:
     void handleRead3DObjectEvent(const std::shared_ptr<Read3DObjectEvent>& fEvent);
     void handleWrite3DObjectEvent(const std::shared_ptr<Write3DObjectEvent> &fEvent);
-    void handleDeleteSelected3DObjectEvent(const std::shared_ptr<DeleteSelected3DObjectEvent> &fEvent);
 
     std::string getMeshNameFromFileName(const std::string& fFileName) const;
 };

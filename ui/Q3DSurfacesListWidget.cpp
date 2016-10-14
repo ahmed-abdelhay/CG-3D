@@ -1,8 +1,11 @@
 #include "Q3DSurfacesListWidget.h"
-#include <QDebug>
+#include <QColorDialog>
+#include <QColor>
+
 #include "infrastructure/ApplicationContext.h"
 #include "modelObjects/ThreeDObject.h"
 #include "infrastructure/Type.h"
+#include "events/Change3DObjectColorEvent.h"
 
 Q3DSurfacesListWidget::Q3DSurfacesListWidget(QListWidget* fParent)
     :QListWidget(fParent)
@@ -10,6 +13,9 @@ Q3DSurfacesListWidget::Q3DSurfacesListWidget(QListWidget* fParent)
     setSelectionMode(QAbstractItemView::SingleSelection);
     QObject::connect(this, SIGNAL(itemSelectionChanged()),
                      this, SLOT(selectionChanged()));
+
+    QObject::connect(this, SIGNAL(doubleClicked(QModelIndex)),
+                     this, SLOT(changeColor(QModelIndex)));
 }
 
 Q3DSurfacesListWidget::~Q3DSurfacesListWidget()
@@ -77,5 +83,17 @@ void Q3DSurfacesListWidget::selectionChanged()
         {
             context()->setSelectedObject(mSurfacesList[index.row()]);
         }
+    }
+}
+
+void Q3DSurfacesListWidget::changeColor(QModelIndex fIndex)
+{
+    QColor color = QColorDialog::getColor(Qt::yellow, this );
+    if( color.isValid() )
+    {
+        auto changeColorEvent = std::make_shared<Change3DObjectColorEvent>();
+        changeColorEvent->object = mSurfacesList[fIndex.row()];
+        changeColorEvent->color = color;
+        context()->publish(changeColorEvent);
     }
 }

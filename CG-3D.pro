@@ -38,7 +38,9 @@ SOURCES += \
     events/Write3DObjectEvent.cpp \
     ui/MeshIOControlWidget.cpp \
     ui/Q3DSurfacesListWidget.cpp \
-    events/DeleteSelected3DObjectEvent.cpp
+    events/DeleteSelected3DObjectEvent.cpp \
+    controllers/ThreeDObjectsController.cpp \
+    events/Change3DObjectColorEvent.cpp
 
 HEADERS  += \
     controllers/ApplicationManager.h \
@@ -67,7 +69,9 @@ HEADERS  += \
     events/Write3DObjectEvent.h \
     ui/MeshIOControlWidget.h \
     ui/Q3DSurfacesListWidget.h \
-    events/DeleteSelected3DObjectEvent.h
+    events/DeleteSelected3DObjectEvent.h \
+    controllers/ThreeDObjectsController.h \
+    events/Change3DObjectColorEvent.h
 
 FORMS    += \
     ui/MainWindow.ui \

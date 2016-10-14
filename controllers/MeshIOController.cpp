@@ -9,7 +9,6 @@
 #include "infrastructure/Event.h"
 #include "events/Read3DObjectEvent.h"
 #include "events/Write3DObjectEvent.h"
-#include "events/DeleteSelected3DObjectEvent.h"
 #include "services/RandomColorGenerator.h"
 
 MeshIOController::MeshIOController()
@@ -32,10 +31,6 @@ void MeshIOController::notify(const std::shared_ptr<Event> &fEvent)
     else if (auto write3DObjectEvent = std::dynamic_pointer_cast<Write3DObjectEvent>(fEvent))
     {
         handleWrite3DObjectEvent(write3DObjectEvent);
-    }
-    else if (auto deleteSelected3DObjectEvent = std::dynamic_pointer_cast<DeleteSelected3DObjectEvent>(fEvent))
-    {
-        handleDeleteSelected3DObjectEvent(deleteSelected3DObjectEvent);
     }
 }
 
@@ -65,20 +60,6 @@ void MeshIOController::handleRead3DObjectEvent(const std::shared_ptr<Read3DObjec
 void MeshIOController::handleWrite3DObjectEvent(const std::shared_ptr<Write3DObjectEvent> &fEvent)
 {
     OpenMesh::IO::write_mesh(*fEvent->object->getMesh(), fEvent->meshFileName);
-}
-
-void MeshIOController::handleDeleteSelected3DObjectEvent(const std::shared_ptr<DeleteSelected3DObjectEvent> &fEvent)
-{
-    if (auto selected3DObject = dynamic_cast<ThreeDObject*>(context()->getSelectedObject()))
-    {
-        context()->dataStore()->removeObject(selected3DObject->getID());
-        context()->setSelectedObject(nullptr);
-    }
-    else
-    {
-        QMessageBox::warning(nullptr, tr("Delete 3D object"),
-                             tr("there is no selected 3D object"));
-    }
 }
 
 std::string MeshIOController::getMeshNameFromFileName(const std::string &fFileName) const

@@ -40,7 +40,8 @@ SOURCES += \
     ui/Q3DSurfacesListWidget.cpp \
     events/DeleteSelected3DObjectEvent.cpp \
     controllers/ThreeDObjectsController.cpp \
-    events/Change3DObjectColorEvent.cpp
+    events/Change3DObjectColorEvent.cpp \
+    core/Algorithms.cpp
 
 HEADERS  += \
     controllers/ApplicationManager.h \
@@ -71,7 +72,8 @@ HEADERS  += \
     ui/Q3DSurfacesListWidget.h \
     events/DeleteSelected3DObjectEvent.h \
     controllers/ThreeDObjectsController.h \
-    events/Change3DObjectColorEvent.h
+    events/Change3DObjectColorEvent.h \
+    core/Algorithms.h
 
 FORMS    += \
     ui/MainWindow.ui \

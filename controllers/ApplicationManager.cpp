@@ -3,6 +3,7 @@
 #include "SceneGraphManager.h"
 #include "MeshIOController.h"
 #include "ThreeDObjectsController.h"
+#include "LassoToolsController.h"
 
 #include <osg/Node>
 
@@ -25,6 +26,10 @@ void ApplicationManager::initializeControllers()
     auto threeDObjectsController = std::make_shared<ThreeDObjectsController>();
     threeDObjectsController->setContext(mContext.get());
     mContext->dataStore()->insertObject(threeDObjectsController);
+
+    auto lassoToolsController = std::make_shared<LassoToolsController>();
+    lassoToolsController->setContext(mContext.get());
+    mContext->dataStore()->insertObject(lassoToolsController);
 }
 
 void ApplicationManager::initializeSceneGraph()

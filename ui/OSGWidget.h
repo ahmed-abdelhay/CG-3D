@@ -7,39 +7,50 @@
 #include <osgViewer/GraphicsWindow>
 #include <osgViewer/CompositeViewer>
 
-class OSGWidget : public QOpenGLWidget
+#include "infrastructure/ApplicationContextProvider.h"
+#include "infrastructure/PropertyChangedHandler.h"
+#include "infrastructure/ContainerChangedHandler.h"
+
+class OSGWidget : public QOpenGLWidget, public ApplicationContextProvider,
+        public PropertyChangedHandler, public ContainerChangedHandler
 {
     Q_OBJECT
 
 public:
-    OSGWidget(QWidget* parent = nullptr, Qt::WindowFlags f = 0);
+    OSGWidget(QWidget* fParent = nullptr, Qt::WindowFlags fFlages = 0);
 
     virtual ~OSGWidget();
 
     void setSceneGraph(const osg::ref_ptr<osg::Node>& fSceneGraphRootNode);
 
+    void setContext(ApplicationContext *fContext) override;
+
 protected:
+    void paintEvent(QPaintEvent* fPaintEvent) override;
+    void paintGL() override;
+    void resizeGL(int fWidth, int fHeight) override;
 
-    virtual void paintEvent( QPaintEvent* paintEvent );
-    virtual void paintGL();
-    virtual void resizeGL( int width, int height );
+    void keyPressEvent(QKeyEvent* fEvent) override;
+    void keyReleaseEvent(QKeyEvent* fEvent) override;
 
-    virtual void keyPressEvent( QKeyEvent* event );
-    virtual void keyReleaseEvent( QKeyEvent* event );
+    void mouseMoveEvent(QMouseEvent* fEvent) override;
+    void mousePressEvent(QMouseEvent* fEvent) override;
+    void mouseReleaseEvent(QMouseEvent* fEvent) override;
+    void wheelEvent(QWheelEvent* fEvent) override;
 
-    virtual void mouseMoveEvent( QMouseEvent* event );
-    virtual void mousePressEvent( QMouseEvent* event );
-    virtual void mouseReleaseEvent( QMouseEvent* event );
-    virtual void wheelEvent( QWheelEvent* event );
-
-    virtual bool event( QEvent* event );
+    bool event(QEvent* fEvent) override;
 
 private:
+    void notifyContainerChanged(const std::shared_ptr<Type> &fObject, ContainerChangeType fChangeType) override;
+    void propertyChanged(Type *fSource, const std::string &fPropertyName) override;
 
-    virtual void onHome();
-    virtual void onResize(int width, int height );
+    void onHome();
+    void onResize(int fWidth, int fHeight);
 
     osgGA::EventQueue* getEventQueue() const;
+
+    QPolygon mLassoPoints;
+    bool mEnableLasso;
 
     osg::ref_ptr<osgViewer::GraphicsWindowEmbedded> mGraphicsWindow;
     osg::ref_ptr<osgViewer::CompositeViewer> mViewer;

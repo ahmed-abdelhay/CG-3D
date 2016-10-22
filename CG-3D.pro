@@ -41,7 +41,12 @@ SOURCES += \
     events/DeleteSelected3DObjectEvent.cpp \
     controllers/ThreeDObjectsController.cpp \
     events/Change3DObjectColorEvent.cpp \
-    core/Algorithms.cpp
+    core/Algorithms.cpp \
+    modelObjects/PolygonalLasso.cpp \
+    ui/LassoToolsWidget.cpp \
+    events/LassoToolChangeEvent.cpp \
+    controllers/LassoToolsController.cpp \
+    events/AddLassoPointEvent.cpp
 
 HEADERS  += \
     controllers/ApplicationManager.h \
@@ -73,11 +78,17 @@ HEADERS  += \
     events/DeleteSelected3DObjectEvent.h \
     controllers/ThreeDObjectsController.h \
     events/Change3DObjectColorEvent.h \
-    core/Algorithms.h
+    core/Algorithms.h \
+    modelObjects/PolygonalLasso.h \
+    ui/LassoToolsWidget.h \
+    events/LassoToolChangeEvent.h \
+    controllers/LassoToolsController.h \
+    events/AddLassoPointEvent.h
 
 FORMS    += \
     ui/MainWindow.ui \
-    ui/MeshIOControlWidtet.ui
+    ui/MeshIOControlWidtet.ui \
+    ui/LassoToolsWidget.ui
 
 LIBS += -lOpenThreads -losgViewer -losgText -losg -losgQt -losgUtil -losgDB -lOpenMeshCore -lOpenMeshTools -losgGA
 

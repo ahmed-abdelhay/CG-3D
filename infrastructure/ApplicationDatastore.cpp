@@ -50,3 +50,14 @@ void ApplicationDatastore::clearDataStore()
     for (auto& object : mDataStore)
         removeObject(object);
 }
+
+std::vector<std::shared_ptr<Type>> ApplicationDatastore::getAllObjectOfType(const std::string &fType)
+{
+    std::vector<std::shared_ptr<Type>> objects;
+    for (const auto& object : mDataStore)
+    {
+        if (object->metaObject()->className() == fType)
+            objects.push_back(object);
+    }
+    return objects;
+}

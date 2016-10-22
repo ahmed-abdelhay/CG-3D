@@ -3,6 +3,7 @@
 #include "controllers/ApplicationManager.h"
 #include "ui/MeshIOControlWidget.h"
 #include "ui/Q3DSurfacesListWidget.h"
+#include "ui/LassoToolsWidget.h"
 #include "ui_MainWindow.h"
 
 #include <QListWidget>
@@ -19,6 +20,7 @@ ApplicationMainWindow::ApplicationMainWindow(QWidget* fParent, Qt::WindowFlags f
     auto renderingSubWindow = mUi->renderingArea->addSubWindow(mRenderingWidget);
     renderingSubWindow->showMaximized();
 
+    mRenderingWidget->setContext(mApplicationManager->context());
     mRenderingWidget->update();
 
     if (auto osgRenderingWidget = dynamic_cast<OSGWidget*>(mRenderingWidget))
@@ -26,8 +28,14 @@ ApplicationMainWindow::ApplicationMainWindow(QWidget* fParent, Qt::WindowFlags f
 
     // add the menu tools
     auto meshIOControlWidget = new MeshIOControlWidget();
-    mUi->stackedMenuWidget->addWidget(meshIOControlWidget);
+    mUi->toolWidgetsLayout->addWidget(meshIOControlWidget);
     meshIOControlWidget->setContext(mApplicationManager->context());
+
+    auto lassoToolsWidget = new LassoToolsWidget();
+    mUi->toolWidgetsLayout->addWidget(lassoToolsWidget);
+    lassoToolsWidget->setContext(mApplicationManager->context());
+
+    mUi->toolWidgetsLayout->addSpacerItem(new QSpacerItem(1,1, QSizePolicy::MinimumExpanding, QSizePolicy::Fixed));
 
     // add the tab tools
     auto surfacesList = new Q3DSurfacesListWidget();

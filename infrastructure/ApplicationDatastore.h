@@ -22,6 +22,8 @@ public:
 
     void clearDataStore();
 
+    std::vector<std::shared_ptr<Type>> getAllObjectOfType(const std::string& fType);
+
 signals:
     void containerChanged(const std::shared_ptr<Type>& fObject, ContainerChangeType fChangeType);
     void modelObjectPropertyChanged(Type* fObject, const std::string& fPropertyType);

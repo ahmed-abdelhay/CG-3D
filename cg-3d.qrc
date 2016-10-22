@@ -5,6 +5,7 @@
         <file>resources/icons/cg-3d icon</file>
         <file>resources/icons/3D objects list.ico</file>
         <file>resources/icons/delete.svg</file>
+        <file>resources/icons/polygonal lasso.png</file>
     </qresource>
     <qresource prefix="/images"/>
 </RCC>

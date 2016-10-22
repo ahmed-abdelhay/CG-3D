@@ -14,7 +14,7 @@ public:
     PolygonalLasso();
     virtual ~PolygonalLasso();
 
-    void insertPoint(const QPoint& fPoint);
+    void insertPoint(const QPoint& _point);
 
     QPolygon getPoints() const;
 

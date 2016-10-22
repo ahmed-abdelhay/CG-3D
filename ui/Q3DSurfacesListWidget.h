@@ -14,17 +14,18 @@ class Q3DSurfacesListWidget : public QListWidget, public ApplicationContextProvi
 {
     Q_OBJECT
 public:
-    Q3DSurfacesListWidget(QListWidget *fParent = nullptr);
+    Q3DSurfacesListWidget(QListWidget *_parent = nullptr);
     virtual ~Q3DSurfacesListWidget();
 
-    void setContext(ApplicationContext *fContext) override;
-    void propertyChanged(Type *fSource, const std::string &fPropertyName) override;
-    void notifyContainerChanged(const std::shared_ptr<Type> &fObject, ContainerChangeType fChangeType) override;
+    void setContext(ApplicationContext *_context) override;
 
 public slots:
     void selectionChanged();
-    void changeColor(QModelIndex fIndex);
+    void changeColor(QModelIndex _index);
 
 private:
+    void propertyChanged(Type *_source, const std::string &_propertyName) override;
+    void notifyContainerChanged(const std::shared_ptr<Type> &_object, ContainerChangeType _changeType) override;
+
     std::vector<Type*> mSurfacesList;
 };

@@ -66,24 +66,24 @@ osg::Node *SceneGraphManager::getRootNode()
     return mRootNode.get();
 }
 
-void SceneGraphManager::setContext(ApplicationContext *fContext)
+void SceneGraphManager::setContext(ApplicationContext *_context)
 {
-    mContext = fContext;
+    mContext = _context;
     if (context())
     {
-        subscribeToContainerChanged(fContext);
-        subscribeToEvents(fContext);
+        subscribeToContainerChanged(_context);
+        subscribeToEvents(_context);
     }
 }
 
-void SceneGraphManager::notifyContainerChanged(const std::shared_ptr<Type> &fObject, ContainerChangeType fChangeType)
+void SceneGraphManager::notifyContainerChanged(const std::shared_ptr<Type> &_object, ContainerChangeType _changeType)
 {
-    if(fObject->metaObject()->className() == ThreeDObjectType)
+    if(_object->metaObject()->className() == ThreeDObjectType)
     {
-        switch (fChangeType)
+        switch (_changeType)
         {
         case ContainerChangeType::OBJECT_ADDED:
-            if (auto threeDObject = dynamic_cast<ThreeDObject*>(fObject.get()))
+            if (auto threeDObject = dynamic_cast<ThreeDObject*>(_object.get()))
             {
                 auto threeDObjectNode = new TriMeshNode(threeDObject->getID(), threeDObject->getMesh(), threeDObject->getColor());
                 threeDObjectNode->setContext(context());
@@ -92,7 +92,7 @@ void SceneGraphManager::notifyContainerChanged(const std::shared_ptr<Type> &fObj
             }
             break;
         case ContainerChangeType::OBJECT_REMOVED:
-            if (auto threeDObject = dynamic_cast<ThreeDObject*>(fObject.get()))
+            if (auto threeDObject = dynamic_cast<ThreeDObject*>(_object.get()))
             {
                 auto objectID = threeDObject->getID();
                 auto surfaceNodesCount = m3DSurfacesGroup->getNumChildren();
@@ -113,7 +113,7 @@ void SceneGraphManager::notifyContainerChanged(const std::shared_ptr<Type> &fObj
     }
 }
 
-void SceneGraphManager::notify(const std::shared_ptr<Event> &fEvent)
+void SceneGraphManager::notify(const std::shared_ptr<Event> &_event)
 {
 
 }

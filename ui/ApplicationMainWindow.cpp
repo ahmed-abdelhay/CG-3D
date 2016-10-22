@@ -9,10 +9,10 @@
 #include <QListWidget>
 #include <QMdiSubWindow>
 
-ApplicationMainWindow::ApplicationMainWindow(QWidget* fParent, Qt::WindowFlags fFlags)
-    : QMainWindow(fParent, fFlags),
+ApplicationMainWindow::ApplicationMainWindow(QWidget* _parent, Qt::WindowFlags _flags)
+    : QMainWindow(_parent, _flags),
       mApplicationManager (new ApplicationManager()),
-      mRenderingWidget(new OSGWidget(this, fFlags)),
+      mRenderingWidget(new OSGWidget(this, _flags)),
       mUi(new Ui::MainWindow())
 {
     mUi->setupUi(this);

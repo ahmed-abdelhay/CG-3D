@@ -7,12 +7,12 @@ PropertyChangedHandler::PropertyChangedHandler()
 PropertyChangedHandler::~PropertyChangedHandler()
 {}
 
-void PropertyChangedHandler::subscribePropertyChangedOnType(const std::string &fObjectType, ContextChangedPublisher *fPublisher)
+void PropertyChangedHandler::subscribePropertyChangedOnType(const std::string &_objectType, ContextChangedPublisher *_publisher)
 {
-    fPublisher->attach(fObjectType, this);
+    _publisher->attach(_objectType, this);
 }
 
-void PropertyChangedHandler::unsubscribePropertyChangedOnType(const std::string &fObjectType, ContextChangedPublisher *fPublisher)
+void PropertyChangedHandler::unsubscribePropertyChangedOnType(const std::string &_objectType, ContextChangedPublisher *_publisher)
 {
-    fPublisher->detach(fObjectType, this);
+    _publisher->detach(_objectType, this);
 }

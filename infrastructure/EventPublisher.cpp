@@ -10,18 +10,18 @@ EventPublisher::EventPublisher()
 EventPublisher::~EventPublisher()
 {}
 
-void EventPublisher::attach(EventHandler *fEventHandler)
+void EventPublisher::attach(EventHandler *_eventHandler)
 {
-    mObservers.push_back(fEventHandler);
+    mObservers.push_back(_eventHandler);
 }
 
-void EventPublisher::detach(EventHandler *fEventHandler)
+void EventPublisher::detach(EventHandler *_eventHandler)
 {
-    mObservers.erase(std::remove(mObservers.begin(), mObservers.end(), fEventHandler), mObservers.end());
+    mObservers.erase(std::remove(mObservers.begin(), mObservers.end(), _eventHandler), mObservers.end());
 }
 
-void EventPublisher::publish(const std::shared_ptr<Event>& fEvent) const
+void EventPublisher::publish(const std::shared_ptr<Event>& _event) const
 {
     for(const auto& observer : mObservers)
-        observer->notify(fEvent);
+        observer->notify(_event);
 }

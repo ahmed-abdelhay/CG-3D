@@ -12,10 +12,10 @@ public:
     EventPublisher();
     virtual ~EventPublisher();
 
-    void attach(EventHandler* fEventHandler);
-    void detach(EventHandler* fEventHandler);
+    void attach(EventHandler* _eventHandler);
+    void detach(EventHandler* _eventHandler);
 
-    virtual void publish(const std::shared_ptr<Event> &fEvent) const;
+    virtual void publish(const std::shared_ptr<Event> &_event) const;
 
 protected:
     std::vector<EventHandler*> mObservers;

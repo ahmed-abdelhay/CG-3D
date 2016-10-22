@@ -21,11 +21,12 @@ public:
 
     osg::Node *getRootNode();
 
-    void setContext(ApplicationContext* fContext) override;
-    void notifyContainerChanged(const std::shared_ptr<Type> &fObject, ContainerChangeType fChangeType) override;
-    void notify(const std::shared_ptr<Event> &fEvent) override;
+    void setContext(ApplicationContext* _context) override;
 
 private:
+    void notifyContainerChanged(const std::shared_ptr<Type> &_object, ContainerChangeType _changeType) override;
+    void notify(const std::shared_ptr<Event> &_event) override;
+
     osg::ref_ptr<osg::Group> mRootNode;
     osg::ref_ptr<osg::Group> m3DSurfacesGroup;
 };

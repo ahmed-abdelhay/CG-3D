@@ -15,11 +15,11 @@ public:
     LassoToolsController();
     virtual ~LassoToolsController();
 
-    void setContext(ApplicationContext *fContext) override;
+    void setContext(ApplicationContext *_context) override;
 
 private:
-    void notify(const std::shared_ptr<Event> &fEvent) override;
+    void notify(const std::shared_ptr<Event> &_event) override;
 
-    void handleLassoToolStateChangeEvent(const std::shared_ptr<LassoToolChangeEvent>& fEvent);
-    void handleAddLassoPointEvent(const std::shared_ptr<AddLassoPointEvent>& fEvent);
+    void handleLassoToolStateChangeEvent(const std::shared_ptr<LassoToolChangeEvent>& _event);
+    void handleAddLassoPointEvent(const std::shared_ptr<AddLassoPointEvent>& _event);
 };

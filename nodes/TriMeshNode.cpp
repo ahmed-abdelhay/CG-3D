@@ -14,18 +14,18 @@ TriMeshNode::TriMeshNode()
       mColor(1.0f, 0.0f, 0.0f, 1.0f)
 {}
 
-TriMeshNode::TriMeshNode(const size_t &f3DObjectID, const std::shared_ptr<TriMesh> &fMesh, const QColor &fColor)
+TriMeshNode::TriMeshNode(const size_t &_3DObjectID, const std::shared_ptr<TriMesh> &_mesh, const QColor &_color)
     : osg::Geode(),
-      m3DObjectID(f3DObjectID),
-      mMesh(fMesh),
-      mColor(fColor.redF(), fColor.greenF(), fColor.blueF(), fColor.alphaF())
+      m3DObjectID(_3DObjectID),
+      mMesh(_mesh),
+      mColor(_color.redF(), _color.greenF(), _color.blueF(), _color.alphaF())
 {}
 
-TriMeshNode::TriMeshNode(const TriMeshNode& fCopy, const osg::CopyOp &fCopyOp)
-    :osg::Geode(fCopy, fCopyOp),
-      m3DObjectID(fCopy.m3DObjectID),
-      mMesh(fCopy.mMesh),
-      mColor(fCopy.mColor)
+TriMeshNode::TriMeshNode(const TriMeshNode& _copy, const osg::CopyOp &_copyOp)
+    :osg::Geode(_copy, _copyOp),
+      m3DObjectID(_copy.m3DObjectID),
+      mMesh(_copy.mMesh),
+      mColor(_copy.mColor)
 {}
 
 TriMeshNode::~TriMeshNode()
@@ -36,12 +36,12 @@ TriMeshNode::~TriMeshNode()
     }
 }
 
-void TriMeshNode::setColor(const QColor &fColor)
+void TriMeshNode::setColor(const QColor &_color)
 {
-    mColor[0] = fColor.redF();
-    mColor[1] = fColor.greenF();
-    mColor[2] = fColor.blueF();
-    mColor[3] = fColor.alphaF();
+    mColor[0] = _color.redF();
+    mColor[1] = _color.greenF();
+    mColor[2] = _color.blueF();
+    mColor[3] = _color.alphaF();
 }
 
 QColor TriMeshNode::getColor() const
@@ -49,9 +49,9 @@ QColor TriMeshNode::getColor() const
     return QColor(mColor[0] * 255, mColor[1] * 255, mColor[2] * 255, mColor[3] * 255);
 }
 
-void TriMeshNode::setMesh(const std::shared_ptr<TriMesh> &fMesh)
+void TriMeshNode::setMesh(const std::shared_ptr<TriMesh> &_mesh)
 {
-    mMesh = fMesh;
+    mMesh = _mesh;
 }
 
 std::shared_ptr<TriMesh> TriMeshNode::getMesh() const
@@ -115,20 +115,20 @@ void TriMeshNode::update()
         replaceDrawable(getDrawable(0), geometry);
 }
 
-void TriMeshNode::propertyChanged(Type *fSource, const std::string &fPropertyName)
+void TriMeshNode::propertyChanged(Type *_source, const std::string &_propertyName)
 {
-    if (fSource->getID() == m3DObjectID)
+    if (_source->getID() == m3DObjectID)
     {
-        if (auto object = dynamic_cast<ThreeDObject*>(fSource))
+        if (auto object = dynamic_cast<ThreeDObject*>(_source))
         {
-            if (fPropertyName == ColorType)
+            if (_propertyName == ColorType)
             {
                 mColor[0] = object->getColor().redF();
                 mColor[1] = object->getColor().greenF();
                 mColor[2] = object->getColor().blueF();
                 mColor[3] = object->getColor().alphaF();
             }
-            else if (fPropertyName == MeshType)
+            else if (_propertyName == MeshType)
             {
                 mMesh = object->getMesh();
             }
@@ -138,8 +138,8 @@ void TriMeshNode::propertyChanged(Type *fSource, const std::string &fPropertyNam
     }
 }
 
-void TriMeshNode::setContext(ApplicationContext *fContext)
+void TriMeshNode::setContext(ApplicationContext *_context)
 {
-    mContext = fContext;
-    subscribePropertyChangedOnType(ThreeDObjectType, fContext);
+    mContext = _context;
+    subscribePropertyChangedOnType(ThreeDObjectType, _context);
 }

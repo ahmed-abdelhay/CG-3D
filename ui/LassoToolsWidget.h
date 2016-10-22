@@ -10,10 +10,10 @@ class LassoToolsWidget : public QWidget, public ApplicationContextProvider
     Q_OBJECT
 
 public:
-    LassoToolsWidget(QWidget *parent = nullptr);
+    LassoToolsWidget(QWidget* _parent = nullptr);
     ~LassoToolsWidget();
 
-    void setContext(ApplicationContext *fContext) override;
+    void setContext(ApplicationContext *_context) override;
 
 private slots:
     void on_actionPolygonalLassoClicked_toggled();

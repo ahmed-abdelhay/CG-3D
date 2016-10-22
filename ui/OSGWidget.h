@@ -17,35 +17,35 @@ class OSGWidget : public QOpenGLWidget, public ApplicationContextProvider,
     Q_OBJECT
 
 public:
-    OSGWidget(QWidget* fParent = nullptr, Qt::WindowFlags fFlages = 0);
+    OSGWidget(QWidget* _parent = nullptr, Qt::WindowFlags _flages = 0);
 
     virtual ~OSGWidget();
 
-    void setSceneGraph(const osg::ref_ptr<osg::Node>& fSceneGraphRootNode);
+    void setSceneGraph(const osg::ref_ptr<osg::Node>& _sceneGraphRootNode);
 
-    void setContext(ApplicationContext *fContext) override;
+    void setContext(ApplicationContext *_context) override;
 
 protected:
-    void paintEvent(QPaintEvent* fPaintEvent) override;
+    void paintEvent(QPaintEvent* _paintEvent) override;
     void paintGL() override;
-    void resizeGL(int fWidth, int fHeight) override;
+    void resizeGL(int _width, int _height) override;
 
-    void keyPressEvent(QKeyEvent* fEvent) override;
-    void keyReleaseEvent(QKeyEvent* fEvent) override;
+    void keyPressEvent(QKeyEvent* _event) override;
+    void keyReleaseEvent(QKeyEvent* _event) override;
 
-    void mouseMoveEvent(QMouseEvent* fEvent) override;
-    void mousePressEvent(QMouseEvent* fEvent) override;
-    void mouseReleaseEvent(QMouseEvent* fEvent) override;
-    void wheelEvent(QWheelEvent* fEvent) override;
+    void mouseMoveEvent(QMouseEvent* _event) override;
+    void mousePressEvent(QMouseEvent* _event) override;
+    void mouseReleaseEvent(QMouseEvent* _event) override;
+    void wheelEvent(QWheelEvent* _event) override;
 
-    bool event(QEvent* fEvent) override;
+    bool event(QEvent* _event) override;
 
 private:
-    void notifyContainerChanged(const std::shared_ptr<Type> &fObject, ContainerChangeType fChangeType) override;
-    void propertyChanged(Type *fSource, const std::string &fPropertyName) override;
+    void notifyContainerChanged(const std::shared_ptr<Type> &_object, ContainerChangeType _changeType) override;
+    void propertyChanged(Type *_source, const std::string &_propertyName) override;
 
     void onHome();
-    void onResize(int fWidth, int fHeight);
+    void onResize(int _width, int _height);
 
     osgGA::EventQueue* getEventQueue() const;
 

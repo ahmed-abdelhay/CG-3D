@@ -10,8 +10,8 @@
 #include "events/Write3DObjectEvent.h"
 #include "events/DeleteSelected3DObjectEvent.h"
 
-MeshIOControlWidget::MeshIOControlWidget(QWidget *parent)
-    : QWidget(parent),
+MeshIOControlWidget::MeshIOControlWidget(QWidget *_parent)
+    : QWidget(_parent),
       mUi(new Ui::MeshIOControlWidget())
 {
     mUi->setupUi(this);
@@ -20,9 +20,9 @@ MeshIOControlWidget::MeshIOControlWidget(QWidget *parent)
 MeshIOControlWidget::~MeshIOControlWidget()
 {}
 
-void MeshIOControlWidget::setContext(ApplicationContext *fContext)
+void MeshIOControlWidget::setContext(ApplicationContext *_context)
 {
-    mContext = fContext;
+    mContext = _context;
 }
 
 void MeshIOControlWidget::on_actionLoadMeshClicked_triggered()

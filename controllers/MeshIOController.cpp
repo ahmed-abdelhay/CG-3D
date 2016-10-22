@@ -22,32 +22,32 @@ MeshIOController::~MeshIOController()
     }
 }
 
-void MeshIOController::notify(const std::shared_ptr<Event> &fEvent)
+void MeshIOController::notify(const std::shared_ptr<Event> &_event)
 {
-    if (auto read3DObjectEvent = std::dynamic_pointer_cast<Read3DObjectEvent>(fEvent))
+    if (auto read3DObjectEvent = std::dynamic_pointer_cast<Read3DObjectEvent>(_event))
     {
         handleRead3DObjectEvent(read3DObjectEvent);
     }
-    else if (auto write3DObjectEvent = std::dynamic_pointer_cast<Write3DObjectEvent>(fEvent))
+    else if (auto write3DObjectEvent = std::dynamic_pointer_cast<Write3DObjectEvent>(_event))
     {
         handleWrite3DObjectEvent(write3DObjectEvent);
     }
 }
 
-void MeshIOController::setContext(ApplicationContext *fContext)
+void MeshIOController::setContext(ApplicationContext *_context)
 {
-    mContext = fContext;
+    mContext = _context;
     subscribeToEvents(context());
 }
 
-void MeshIOController::handleRead3DObjectEvent(const std::shared_ptr<Read3DObjectEvent> &fEvent)
+void MeshIOController::handleRead3DObjectEvent(const std::shared_ptr<Read3DObjectEvent> &_event)
 {
     auto mesh = std::make_shared<TriMesh>();
-    if (OpenMesh::IO::read_mesh(*mesh, fEvent->meshFileName))
+    if (OpenMesh::IO::read_mesh(*mesh, _event->meshFileName))
     {
         auto object = std::make_shared<ThreeDObject>();
         object->setMesh(mesh);
-        object->setName(getMeshNameFromFileName(fEvent->meshFileName));
+        object->setName(getMeshNameFromFileName(_event->meshFileName));
         object->setColor(RandomColorGenerator::generateRandomColor());
 
         if (context())
@@ -57,17 +57,17 @@ void MeshIOController::handleRead3DObjectEvent(const std::shared_ptr<Read3DObjec
     }
 }
 
-void MeshIOController::handleWrite3DObjectEvent(const std::shared_ptr<Write3DObjectEvent> &fEvent)
+void MeshIOController::handleWrite3DObjectEvent(const std::shared_ptr<Write3DObjectEvent> &_event)
 {
-    OpenMesh::IO::write_mesh(*fEvent->object->getMesh(), fEvent->meshFileName);
+    OpenMesh::IO::write_mesh(*_event->object->getMesh(), _event->meshFileName);
 }
 
-std::string MeshIOController::getMeshNameFromFileName(const std::string &fFileName) const
+std::string MeshIOController::getMeshNameFromFileName(const std::string &_fileName) const
 {
     auto checkSeparator = [](const char& ch) -> bool
     {
         return ch == '\\' || ch == '/';
     };
 
-    return std::string(std::find_if(fFileName.rbegin(), fFileName.rend(), checkSeparator).base(), fFileName.end());
+    return std::string(std::find_if(_fileName.rbegin(), _fileName.rend(), checkSeparator).base(), _fileName.end());
 }

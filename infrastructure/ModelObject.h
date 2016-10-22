@@ -12,5 +12,5 @@ public:
 
 signals:
     // this signal will be emitted if the property of the object changed
-    void propertyChanged(Type* fSourceObject, const std::string& fPropertyName);
+    void propertyChanged(Type* _sourceObject, const std::string& _propertyName);
 };

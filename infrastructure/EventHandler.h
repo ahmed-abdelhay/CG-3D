@@ -13,8 +13,8 @@ public:
 
     virtual ~EventHandler();
 
-    virtual void notify(const std::shared_ptr<Event>& fEvent) = 0;
+    virtual void notify(const std::shared_ptr<Event>& _event) = 0;
 
-    virtual void subscribeToEvents(EventPublisher* fSubject);
-    virtual void unsubscribeToEvents(EventPublisher* fSubject);
+    virtual void subscribeToEvents(EventPublisher* _subject);
+    virtual void unsubscribeToEvents(EventPublisher* _subject);
 };

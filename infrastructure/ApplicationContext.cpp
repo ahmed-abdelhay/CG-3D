@@ -26,9 +26,9 @@ ApplicationDatastore *ApplicationContext::dataStore()
     return mDataStore.get();
 }
 
-void ApplicationContext::setSelectedObject(Type *fSelectedObject)
+void ApplicationContext::setSelectedObject(Type *_selectedObject)
 {
-    mSelectedObject = fSelectedObject;
+    mSelectedObject = _selectedObject;
 }
 
 Type *ApplicationContext::getSelectedObject()

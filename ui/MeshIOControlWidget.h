@@ -11,10 +11,10 @@ class MeshIOControlWidget : public QWidget, public ApplicationContextProvider
 {
     Q_OBJECT
 public:
-    MeshIOControlWidget(QWidget *parent = nullptr);
+    MeshIOControlWidget(QWidget *_parent = nullptr);
     virtual ~MeshIOControlWidget();
 
-    void setContext(ApplicationContext *fContext);
+    void setContext(ApplicationContext *_context);
 
 public slots:
     void on_actionLoadMeshClicked_triggered();

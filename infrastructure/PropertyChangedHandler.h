@@ -11,8 +11,8 @@ public:
     PropertyChangedHandler();
     virtual ~PropertyChangedHandler();
 
-    void subscribePropertyChangedOnType(const std::string& fObjectType, ContextChangedPublisher* fPublisher);
-    void unsubscribePropertyChangedOnType(const std::string& fObjectType, ContextChangedPublisher* fPublisher);
+    void subscribePropertyChangedOnType(const std::string& _objectType, ContextChangedPublisher* _publisher);
+    void unsubscribePropertyChangedOnType(const std::string& _objectType, ContextChangedPublisher* _publisher);
 
-    virtual void propertyChanged(Type* fSource, const std::string& fPropertyName) = 0;
+    virtual void propertyChanged(Type* _source, const std::string& _propertyName) = 0;
 };

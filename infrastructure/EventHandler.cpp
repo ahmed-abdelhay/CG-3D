@@ -7,12 +7,12 @@ EventHandler::EventHandler()
 EventHandler::~EventHandler()
 {}
 
-void EventHandler::subscribeToEvents(EventPublisher *fSubject)
+void EventHandler::subscribeToEvents(EventPublisher *_subject)
 {
-    fSubject->attach(this);
+    _subject->attach(this);
 }
 
-void EventHandler::unsubscribeToEvents(EventPublisher *fSubject)
+void EventHandler::unsubscribeToEvents(EventPublisher *_subject)
 {
-    fSubject->detach(this);
+    _subject->detach(this);
 }

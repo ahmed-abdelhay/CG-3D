@@ -24,9 +24,9 @@ public:
     std::string getName() const;
     std::shared_ptr<TriMesh> getMesh() const;
 
-    void setColor(QColor fColor);
-    void setName(std::string fName);
-    void setMesh(const std::shared_ptr<TriMesh>& fMesh);
+    void setColor(QColor _color);
+    void setName(std::string _name);
+    void setMesh(const std::shared_ptr<TriMesh>& _mesh);
 
 private:
     std::string mName;

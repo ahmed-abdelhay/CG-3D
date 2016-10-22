@@ -7,9 +7,9 @@ PolygonalLasso::PolygonalLasso()
 PolygonalLasso::~PolygonalLasso()
 {}
 
-void PolygonalLasso::insertPoint(const QPoint &fPoint)
+void PolygonalLasso::insertPoint(const QPoint &_point)
 {
-    mLassoPoints.push_back(fPoint);
+    mLassoPoints.push_back(_point);
     emit propertyChanged(this, LassoPointsType);
 }
 

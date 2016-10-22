@@ -20,34 +20,34 @@ ThreeDObjectsController::~ThreeDObjectsController()
     }
 }
 
-void ThreeDObjectsController::notify(const std::shared_ptr<Event> &fEvent)
+void ThreeDObjectsController::notify(const std::shared_ptr<Event> &_event)
 {
-    if (auto delete3DObjectEvent = std::dynamic_pointer_cast<DeleteSelected3DObjectEvent>(fEvent))
+    if (auto delete3DObjectEvent = std::dynamic_pointer_cast<DeleteSelected3DObjectEvent>(_event))
     {
         handleDeleteSelected3DObjectEvent(delete3DObjectEvent);
     }
-    else if (auto changeColorEvent = std::dynamic_pointer_cast<Change3DObjectColorEvent>(fEvent))
+    else if (auto changeColorEvent = std::dynamic_pointer_cast<Change3DObjectColorEvent>(_event))
     {
         handleChange3DObjectColorEvent(changeColorEvent);
     }
 }
 
-void ThreeDObjectsController::setContext(ApplicationContext *fContext)
+void ThreeDObjectsController::setContext(ApplicationContext *_context)
 {
-    mContext = fContext;
+    mContext = _context;
     subscribeToEvents(context());
 }
 
-void ThreeDObjectsController::handleChange3DObjectColorEvent(const std::shared_ptr<Change3DObjectColorEvent> &fEvent)
+void ThreeDObjectsController::handleChange3DObjectColorEvent(const std::shared_ptr<Change3DObjectColorEvent> &_event)
 {
-    if (auto object = dynamic_cast<ThreeDObject*>(fEvent->object))
+    if (auto object = dynamic_cast<ThreeDObject*>(_event->object))
     {
-        object->setColor(fEvent->color);
+        object->setColor(_event->color);
     }
 }
 
 
-void ThreeDObjectsController::handleDeleteSelected3DObjectEvent(const std::shared_ptr<DeleteSelected3DObjectEvent> &fEvent)
+void ThreeDObjectsController::handleDeleteSelected3DObjectEvent(const std::shared_ptr<DeleteSelected3DObjectEvent> &_event)
 {
     if (auto selected3DObject = dynamic_cast<ThreeDObject*>(context()->getSelectedObject()))
     {

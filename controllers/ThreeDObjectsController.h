@@ -17,10 +17,11 @@ public:
     ThreeDObjectsController();
     virtual ~ThreeDObjectsController();
 
-    void notify(const std::shared_ptr<Event> &fEvent) override;
-    void setContext(ApplicationContext *fContext) override;
+    void setContext(ApplicationContext *_context) override;
 
 private:
-    void handleDeleteSelected3DObjectEvent(const std::shared_ptr<DeleteSelected3DObjectEvent> &fEvent);
-    void handleChange3DObjectColorEvent(const std::shared_ptr<Change3DObjectColorEvent> &fEvent);
+    void notify(const std::shared_ptr<Event> &_event) override;
+
+    void handleDeleteSelected3DObjectEvent(const std::shared_ptr<DeleteSelected3DObjectEvent> &_event);
+    void handleChange3DObjectColorEvent(const std::shared_ptr<Change3DObjectColorEvent> &_event);
 };

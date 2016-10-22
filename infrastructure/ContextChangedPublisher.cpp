@@ -10,47 +10,47 @@ ContextChangedPublisher::ContextChangedPublisher()
 ContextChangedPublisher::~ContextChangedPublisher()
 {}
 
-void ContextChangedPublisher::attach(ContainerChangedHandler *fContainerChangedHandler)
+void ContextChangedPublisher::attach(ContainerChangedHandler *_containerChangedHandler)
 {
-    mContainerChangedHandlers.push_back(fContainerChangedHandler);
+    mContainerChangedHandlers.push_back(_containerChangedHandler);
 }
 
-void ContextChangedPublisher::detach(ContainerChangedHandler *fContainerChangedHandler)
+void ContextChangedPublisher::detach(ContainerChangedHandler *_containerChangedHandler)
 {
-    mContainerChangedHandlers.erase(std::remove(mContainerChangedHandlers.begin(), mContainerChangedHandlers.end(), fContainerChangedHandler), mContainerChangedHandlers.end());
+    mContainerChangedHandlers.erase(std::remove(mContainerChangedHandlers.begin(), mContainerChangedHandlers.end(), _containerChangedHandler), mContainerChangedHandlers.end());
 }
 
-void ContextChangedPublisher::attach(const std::string &fModelObjectType, PropertyChangedHandler *fPropertyChangedHandler)
+void ContextChangedPublisher::attach(const std::string &_modelObjectType, PropertyChangedHandler *_propertyChangedHandler)
 {
-    if (mModelObjectTypeToHandlersMap.find(fModelObjectType) == mModelObjectTypeToHandlersMap.end())
+    if (mModelObjectTypeToHandlersMap.find(_modelObjectType) == mModelObjectTypeToHandlersMap.end())
     {
-        std::vector<PropertyChangedHandler*> handlersVector{fPropertyChangedHandler};
-        auto modelObjectObserversPair = std::make_pair(fModelObjectType, handlersVector);
+        std::vector<PropertyChangedHandler*> handlersVector{_propertyChangedHandler};
+        auto modelObjectObserversPair = std::make_pair(_modelObjectType, handlersVector);
         mModelObjectTypeToHandlersMap.insert(modelObjectObserversPair);
     }
     else
     {
-        mModelObjectTypeToHandlersMap[fModelObjectType].push_back(fPropertyChangedHandler);
+        mModelObjectTypeToHandlersMap[_modelObjectType].push_back(_propertyChangedHandler);
     }
 }
 
-void ContextChangedPublisher::detach(const std::string &fModelObjectType, PropertyChangedHandler *fPropertyChangedHandler)
+void ContextChangedPublisher::detach(const std::string &_modelObjectType, PropertyChangedHandler *_propertyChangedHandler)
 {
-    auto handlersVector = mModelObjectTypeToHandlersMap[fModelObjectType];
-    handlersVector.erase(std::remove(handlersVector.begin(), handlersVector.end(), fPropertyChangedHandler), handlersVector.end());
+    auto handlersVector = mModelObjectTypeToHandlersMap[_modelObjectType];
+    handlersVector.erase(std::remove(handlersVector.begin(), handlersVector.end(), _propertyChangedHandler), handlersVector.end());
 }
 
-void ContextChangedPublisher::publishContainerChanged(const std::shared_ptr<Type> &fObject, ContainerChangeType fChangeType) const
+void ContextChangedPublisher::publishContainerChanged(const std::shared_ptr<Type> &_object, ContainerChangeType _changeType) const
 {
     for (const auto& observer : mContainerChangedHandlers)
-        observer->notifyContainerChanged(fObject, fChangeType);
+        observer->notifyContainerChanged(_object, _changeType);
 }
 
 
 
-void ContextChangedPublisher::publishPropertyChanged(Type *fSourceObject, const std::string &fPropertyType)
+void ContextChangedPublisher::publishPropertyChanged(Type *_sourceObject, const std::string &_propertyType)
 {
-    std::string objectType = fSourceObject->metaObject()->className();
+    std::string objectType = _sourceObject->metaObject()->className();
     for (auto handler : mModelObjectTypeToHandlersMap[objectType])
-        handler->propertyChanged(fSourceObject, fPropertyType);
+        handler->propertyChanged(_sourceObject, _propertyType);
 }

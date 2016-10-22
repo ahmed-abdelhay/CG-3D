@@ -16,26 +16,26 @@ LassoToolsController::~LassoToolsController()
         unsubscribeToEvents(context());
 }
 
-void LassoToolsController::setContext(ApplicationContext *fContext)
+void LassoToolsController::setContext(ApplicationContext *_context)
 {
-    mContext = fContext;
+    mContext = _context;
     subscribeToEvents(context());
 }
 
-void LassoToolsController::notify(const std::shared_ptr<Event> &fEvent)
+void LassoToolsController::notify(const std::shared_ptr<Event> &_event)
 {
-    if (auto event = std::dynamic_pointer_cast<LassoToolChangeEvent>(fEvent))
+    if (auto event = std::dynamic_pointer_cast<LassoToolChangeEvent>(_event))
         handleLassoToolStateChangeEvent(event);
-    else if (auto event = std::dynamic_pointer_cast<AddLassoPointEvent>(fEvent))
+    else if (auto event = std::dynamic_pointer_cast<AddLassoPointEvent>(_event))
         handleAddLassoPointEvent(event);
 }
 
-void LassoToolsController::handleLassoToolStateChangeEvent(const std::shared_ptr<LassoToolChangeEvent> &fEvent)
+void LassoToolsController::handleLassoToolStateChangeEvent(const std::shared_ptr<LassoToolChangeEvent> &_event)
 {
-    switch (fEvent->lassoToolType)
+    switch (_event->lassoToolType)
     {
     case LassoToolChangeEvent::LassoToolType::POLYGONAL_LASSO_TOOL:
-        if (fEvent->toolState)
+        if (_event->toolState)
         {
             auto polygonalLasso = std::make_shared<PolygonalLasso>();
             context()->dataStore()->insertObject(polygonalLasso);
@@ -50,11 +50,11 @@ void LassoToolsController::handleLassoToolStateChangeEvent(const std::shared_ptr
     }
 }
 
-void LassoToolsController::handleAddLassoPointEvent(const std::shared_ptr<AddLassoPointEvent> &fEvent)
+void LassoToolsController::handleAddLassoPointEvent(const std::shared_ptr<AddLassoPointEvent> &_event)
 {
     auto lassos = mContext->dataStore()->getAllObjectOfType(PolygonalLassoType);
     for (const auto& lasso : lassos)
     {
-        std::dynamic_pointer_cast<PolygonalLasso>(lasso)->insertPoint(fEvent->lassoPoint);
+        std::dynamic_pointer_cast<PolygonalLasso>(lasso)->insertPoint(_event->lassoPoint);
     }
 }

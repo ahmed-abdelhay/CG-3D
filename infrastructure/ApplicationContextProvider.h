@@ -9,7 +9,7 @@ public:
     ApplicationContextProvider();
     virtual ~ApplicationContextProvider();
 
-    virtual void setContext(ApplicationContext* fContext) = 0;
+    virtual void setContext(ApplicationContext* _context) = 0;
     ApplicationContext* context();
 
 protected:

@@ -7,8 +7,8 @@
 #include "infrastructure/Type.h"
 #include "events/Change3DObjectColorEvent.h"
 
-Q3DSurfacesListWidget::Q3DSurfacesListWidget(QListWidget* fParent)
-    :QListWidget(fParent)
+Q3DSurfacesListWidget::Q3DSurfacesListWidget(QListWidget* _parent)
+    :QListWidget(_parent)
 {
     setSelectionMode(QAbstractItemView::SingleSelection);
     QObject::connect(this, SIGNAL(itemSelectionChanged()),
@@ -27,44 +27,44 @@ Q3DSurfacesListWidget::~Q3DSurfacesListWidget()
     }
 }
 
-void Q3DSurfacesListWidget::setContext(ApplicationContext *fContext)
+void Q3DSurfacesListWidget::setContext(ApplicationContext *_context)
 {
-    mContext = fContext;
+    mContext = _context;
 
     subscribePropertyChangedOnType(ThreeDObjectType, context());
     subscribeToContainerChanged(context());
 }
 
-void Q3DSurfacesListWidget::propertyChanged(Type *fSource, const std::string &fPropertyName)
+void Q3DSurfacesListWidget::propertyChanged(Type *_source, const std::string &_propertyName)
 {
-    if (fSource->metaObject()->className() == ThreeDObjectType)
+    if (_source->metaObject()->className() == ThreeDObjectType)
     {
-        if (fPropertyName == NameType)
+        if (_propertyName == NameType)
         {
             for (int i = 0; i < mSurfacesList.size(); ++i)
             {
-                auto object = dynamic_cast<ThreeDObject*>(fSource);
+                auto object = dynamic_cast<ThreeDObject*>(_source);
                 item(i)->setText(QString::fromStdString(object->getName()));
             }
         }
     }
 }
 
-void Q3DSurfacesListWidget::notifyContainerChanged(const std::shared_ptr<Type> &fObject, ContainerChangeType fChangeType)
+void Q3DSurfacesListWidget::notifyContainerChanged(const std::shared_ptr<Type> &_object, ContainerChangeType _changeType)
 {
-    if (fObject->metaObject()->className() == ThreeDObjectType)
+    if (_object->metaObject()->className() == ThreeDObjectType)
     {
-        auto object = dynamic_cast<ThreeDObject*>(fObject.get());
-        switch (fChangeType)
+        auto object = dynamic_cast<ThreeDObject*>(_object.get());
+        switch (_changeType)
         {
         case ContainerChangeType::OBJECT_ADDED:
-            mSurfacesList.push_back(fObject.get());
+            mSurfacesList.push_back(_object.get());
             insertItem(mSurfacesList.size() - 1, QString::fromStdString(object->getName()));
             break;
         case ContainerChangeType::OBJECT_REMOVED:
             for (int i = 0; i < mSurfacesList.size(); ++i)
             {
-                if (fObject.get() == mSurfacesList[i])
+                if (_object.get() == mSurfacesList[i])
                 {
                     takeItem(i);
                     mSurfacesList.erase(mSurfacesList.begin() + i);
@@ -86,13 +86,13 @@ void Q3DSurfacesListWidget::selectionChanged()
     }
 }
 
-void Q3DSurfacesListWidget::changeColor(QModelIndex fIndex)
+void Q3DSurfacesListWidget::changeColor(QModelIndex _index)
 {
     QColor color = QColorDialog::getColor(Qt::yellow, this );
     if( color.isValid() )
     {
         auto changeColorEvent = std::make_shared<Change3DObjectColorEvent>();
-        changeColorEvent->object = mSurfacesList[fIndex.row()];
+        changeColorEvent->object = mSurfacesList[_index.row()];
         changeColorEvent->color = color;
         context()->publish(changeColorEvent);
     }

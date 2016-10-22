@@ -7,12 +7,12 @@ ContainerChangedHandler::ContainerChangedHandler()
 ContainerChangedHandler::~ContainerChangedHandler()
 {}
 
-void ContainerChangedHandler::subscribeToContainerChanged(ContextChangedPublisher *fSubject)
+void ContainerChangedHandler::subscribeToContainerChanged(ContextChangedPublisher *_subject)
 {
-    fSubject->attach(this);
+    _subject->attach(this);
 }
 
-void ContainerChangedHandler::unsubscribeToContainerChanged(ContextChangedPublisher *fSubject)
+void ContainerChangedHandler::unsubscribeToContainerChanged(ContextChangedPublisher *_subject)
 {
-    fSubject->detach(this);
+    _subject->detach(this);
 }

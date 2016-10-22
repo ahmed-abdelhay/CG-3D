@@ -15,8 +15,8 @@ public:
     ContainerChangedHandler();
     virtual ~ContainerChangedHandler();
 
-    virtual void subscribeToContainerChanged(ContextChangedPublisher* fSubject);
-    virtual void unsubscribeToContainerChanged(ContextChangedPublisher* fSubject);
+    virtual void subscribeToContainerChanged(ContextChangedPublisher* _subject);
+    virtual void unsubscribeToContainerChanged(ContextChangedPublisher* _subject);
 
-    virtual void notifyContainerChanged(const std::shared_ptr<Type>& fObject, ContainerChangeType fChangeType) = 0;
+    virtual void notifyContainerChanged(const std::shared_ptr<Type>& _object, ContainerChangeType _changeType) = 0;
 };

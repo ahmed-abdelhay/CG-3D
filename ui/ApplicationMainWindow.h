@@ -11,7 +11,7 @@ class ApplicationMainWindow : public QMainWindow
 {
     Q_OBJECT
 public:
-    ApplicationMainWindow(QWidget* fParent = nullptr, Qt::WindowFlags fFlags = 0);
+    ApplicationMainWindow(QWidget* _parent = nullptr, Qt::WindowFlags _flags = 0);
     virtual ~ApplicationMainWindow();
 
 private:

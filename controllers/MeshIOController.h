@@ -17,12 +17,13 @@ public:
     MeshIOController();
     virtual ~MeshIOController();
 
-    void notify(const std::shared_ptr<Event> &fEvent) override;
-    void setContext(ApplicationContext *fContext) override;
+    void setContext(ApplicationContext *_context) override;
 
 private:
-    void handleRead3DObjectEvent(const std::shared_ptr<Read3DObjectEvent>& fEvent);
-    void handleWrite3DObjectEvent(const std::shared_ptr<Write3DObjectEvent> &fEvent);
+    void notify(const std::shared_ptr<Event> & _event) override;
 
-    std::string getMeshNameFromFileName(const std::string& fFileName) const;
+    void handleRead3DObjectEvent(const std::shared_ptr<Read3DObjectEvent>& _event);
+    void handleWrite3DObjectEvent(const std::shared_ptr<Write3DObjectEvent> &_event);
+
+    std::string getMeshNameFromFileName(const std::string& _fileName) const;
 };

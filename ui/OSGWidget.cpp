@@ -22,9 +22,9 @@
 #include "modelObjects/PolygonalLasso.h"
 #include "events/AddLassoPointEvent.h"
 
-OSGWidget::OSGWidget(QWidget* fParent, Qt::WindowFlags fFlages)
-    : QOpenGLWidget(fParent, fFlages),
-      mGraphicsWindow(new osgViewer::GraphicsWindowEmbedded(x(), y(), fParent->width(), fParent->height())),
+OSGWidget::OSGWidget(QWidget* _parent, Qt::WindowFlags _flages)
+    : QOpenGLWidget(_parent, _flages),
+      mGraphicsWindow(new osgViewer::GraphicsWindowEmbedded(x(), y(), _parent->width(), _parent->height())),
       mViewer(new osgViewer::CompositeViewer),
       mEnableLasso(false)
 {
@@ -70,20 +70,20 @@ OSGWidget::~OSGWidget()
     }
 }
 
-void OSGWidget::setSceneGraph(const osg::ref_ptr<osg::Node> &fSceneGraphRootNode)
+void OSGWidget::setSceneGraph(const osg::ref_ptr<osg::Node> &_sceneGraphRootNode)
 {
-    mSceneGraphRootNode = fSceneGraphRootNode;
+    mSceneGraphRootNode = _sceneGraphRootNode;
     mViewer->getView(0)->setSceneData(mSceneGraphRootNode);
 }
 
-void OSGWidget::setContext(ApplicationContext *fContext)
+void OSGWidget::setContext(ApplicationContext *_context)
 {
-    mContext = fContext;
+    mContext = _context;
     subscribePropertyChangedOnType(PolygonalLassoType, mContext);
     subscribeToContainerChanged(mContext);
 }
 
-void OSGWidget::paintEvent(QPaintEvent* fPaintEvent)
+void OSGWidget::paintEvent(QPaintEvent* _paintEvent)
 {
     this->makeCurrent();
     this->paintGL();
@@ -106,20 +106,20 @@ void OSGWidget::paintGL()
     mViewer->frame();
 }
 
-void OSGWidget::resizeGL(int fWidth, int fHeight)
+void OSGWidget::resizeGL(int _width, int _height)
 {
-    this->getEventQueue()->windowResize( this->x(), this->y(), fWidth, fHeight);
-    mGraphicsWindow->resized(this->x(), this->y(), fWidth, fHeight);
+    this->getEventQueue()->windowResize( this->x(), this->y(), _width, _height);
+    mGraphicsWindow->resized(this->x(), this->y(), _width, _height);
 
-    this->onResize(fWidth, fHeight);
+    this->onResize(_width, _height);
 }
 
-void OSGWidget::keyPressEvent(QKeyEvent* fEvent)
+void OSGWidget::keyPressEvent(QKeyEvent* _event)
 {
-    QString keyString   = fEvent->text();
+    QString keyString   = _event->text();
     const char* keyData = keyString.toLocal8Bit().data();
 
-    if( fEvent->key() == Qt::Key_H )
+    if( _event->key() == Qt::Key_H )
     {
         this->onHome();
         return;
@@ -128,21 +128,21 @@ void OSGWidget::keyPressEvent(QKeyEvent* fEvent)
     this->getEventQueue()->keyPress(osgGA::GUIEventAdapter::KeySymbol(*keyData));
 }
 
-void OSGWidget::keyReleaseEvent(QKeyEvent* fEvent)
+void OSGWidget::keyReleaseEvent(QKeyEvent* _event)
 {
-    QString keyString   = fEvent->text();
+    QString keyString   = _event->text();
     const char* keyData = keyString.toLocal8Bit().data();
 
     this->getEventQueue()->keyRelease(osgGA::GUIEventAdapter::KeySymbol(*keyData));
 }
 
-void OSGWidget::mouseMoveEvent(QMouseEvent* fEvent)
+void OSGWidget::mouseMoveEvent(QMouseEvent* _event)
 {
-    this->getEventQueue()->mouseMotion(static_cast<float>(fEvent->x()),
-                                       static_cast<float>(fEvent->y()));
+    this->getEventQueue()->mouseMotion(static_cast<float>(_event->x()),
+                                       static_cast<float>(_event->y()));
 }
 
-void OSGWidget::mousePressEvent(QMouseEvent* fEvent)
+void OSGWidget::mousePressEvent(QMouseEvent* _event)
 {
     // 1 = left mouse button
     // 2 = middle mouse button
@@ -150,14 +150,14 @@ void OSGWidget::mousePressEvent(QMouseEvent* fEvent)
 
     unsigned int button = 0;
 
-    switch(fEvent->button())
+    switch(_event->button())
     {
     case Qt::LeftButton:
         button = 1;
         if (mEnableLasso)
         {
             auto addPointEvent = std::make_shared<AddLassoPointEvent>();
-            addPointEvent->lassoPoint = QPoint(fEvent->x(), fEvent->y());
+            addPointEvent->lassoPoint = QPoint(_event->x(), _event->y());
             mContext->publish(addPointEvent);
         }
         break;
@@ -174,12 +174,12 @@ void OSGWidget::mousePressEvent(QMouseEvent* fEvent)
         break;
     }
 
-    this->getEventQueue()->mouseButtonPress( static_cast<float>(fEvent->x()),
-                                             static_cast<float>(fEvent->y()),
+    this->getEventQueue()->mouseButtonPress( static_cast<float>(_event->x()),
+                                             static_cast<float>(_event->y()),
                                              button);
 }
 
-void OSGWidget::mouseReleaseEvent(QMouseEvent* fEvent)
+void OSGWidget::mouseReleaseEvent(QMouseEvent* _event)
 {
     // 1 = left mouse button
     // 2 = middle mouse button
@@ -187,7 +187,7 @@ void OSGWidget::mouseReleaseEvent(QMouseEvent* fEvent)
 
     unsigned int button = 0;
 
-    switch(fEvent->button())
+    switch(_event->button())
     {
     case Qt::LeftButton:
         button = 1;
@@ -205,15 +205,15 @@ void OSGWidget::mouseReleaseEvent(QMouseEvent* fEvent)
         break;
     }
 
-    this->getEventQueue()->mouseButtonRelease( static_cast<float>(fEvent->x()),
-                                               static_cast<float>(fEvent->y()),
+    this->getEventQueue()->mouseButtonRelease( static_cast<float>(_event->x()),
+                                               static_cast<float>(_event->y()),
                                                button );
 }
 
-void OSGWidget::wheelEvent(QWheelEvent* fEvent)
+void OSGWidget::wheelEvent(QWheelEvent* _event)
 {
-    fEvent->accept();
-    int delta = fEvent->delta();
+    _event->accept();
+    int delta = _event->delta();
 
     osgGA::GUIEventAdapter::ScrollingMotion motion = delta > 0 ?   osgGA::GUIEventAdapter::SCROLL_UP
                                                                  : osgGA::GUIEventAdapter::SCROLL_DOWN;
@@ -221,14 +221,14 @@ void OSGWidget::wheelEvent(QWheelEvent* fEvent)
     this->getEventQueue()->mouseScroll( motion );
 }
 
-bool OSGWidget::event(QEvent* fEvent)
+bool OSGWidget::event(QEvent* _event)
 {
-    bool handled = QOpenGLWidget::event(fEvent);
+    bool handled = QOpenGLWidget::event(_event);
 
     // This ensures that the OSG widget is always going to be repainted after the
     // user performed some interaction. Doing this in the event handler ensures
     // that we don't forget about some event and prevents duplicate code.
-    switch(fEvent->type())
+    switch(_event->type())
     {
     case QEvent::KeyPress:
     case QEvent::KeyRelease:
@@ -247,11 +247,11 @@ bool OSGWidget::event(QEvent* fEvent)
     return handled;
 }
 
-void OSGWidget::notifyContainerChanged(const std::shared_ptr<Type> &fObject, ContainerChangeType fChangeType)
+void OSGWidget::notifyContainerChanged(const std::shared_ptr<Type> &_object, ContainerChangeType _changeType)
 {
-    if (fObject->metaObject()->className() == PolygonalLassoType)
+    if (_object->metaObject()->className() == PolygonalLassoType)
     {
-        if (fChangeType == ContainerChangeType::OBJECT_ADDED)
+        if (_changeType == ContainerChangeType::OBJECT_ADDED)
         {
             mEnableLasso = true;
         }
@@ -262,19 +262,19 @@ void OSGWidget::notifyContainerChanged(const std::shared_ptr<Type> &fObject, Con
             update();
         }
     }
-    else if (fObject->metaObject()->className() == ThreeDObjectType)
+    else if (_object->metaObject()->className() == ThreeDObjectType)
     {
         onHome();
     }
 }
 
-void OSGWidget::propertyChanged(Type *fSource, const std::string &fPropertyName)
+void OSGWidget::propertyChanged(Type *_source, const std::string &_propertyName)
 {
-    if (fSource->metaObject()->className() == PolygonalLassoType)
+    if (_source->metaObject()->className() == PolygonalLassoType)
     {
-        if (fPropertyName == LassoPointsType)
+        if (_propertyName == LassoPointsType)
         {
-            if (auto lasso = dynamic_cast<PolygonalLasso*>(fSource))
+            if (auto lasso = dynamic_cast<PolygonalLasso*>(_source))
             {
                 mLassoPoints.push_back(lasso->getPoints().back());
             }
@@ -294,11 +294,11 @@ void OSGWidget::onHome()
     }
 }
 
-void OSGWidget::onResize(int fWidth, int fHeight)
+void OSGWidget::onResize(int _width, int _height)
 {
     std::vector<osg::Camera*> cameras;
     mViewer->getCameras(cameras);
-    cameras[0]->setViewport(x(), y(), fWidth, fHeight);
+    cameras[0]->setViewport(x(), y(), _width, _height);
 }
 
 osgGA::EventQueue* OSGWidget::getEventQueue() const

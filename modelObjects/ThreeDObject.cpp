@@ -22,20 +22,20 @@ std::shared_ptr<TriMesh> ThreeDObject::getMesh() const
     return mMesh;
 }
 
-void ThreeDObject::setColor(QColor fColor)
+void ThreeDObject::setColor(QColor _color)
 {
-    mColor = fColor;
+    mColor = _color;
     emit propertyChanged(this, ColorType);
 }
 
-void ThreeDObject::setName(std::string fName)
+void ThreeDObject::setName(std::string _name)
 {
-    mName = fName;
+    mName = _name;
     emit propertyChanged(this, NameType);
 }
 
-void ThreeDObject::setMesh(const std::shared_ptr<TriMesh>& fMesh)
+void ThreeDObject::setMesh(const std::shared_ptr<TriMesh>& _mesh)
 {
-    mMesh = fMesh;
+    mMesh = _mesh;
     emit propertyChanged(this, MeshType);
 }

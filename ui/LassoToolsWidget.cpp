@@ -6,8 +6,8 @@
 
 #include <memory>
 
-LassoToolsWidget::LassoToolsWidget(QWidget *parent)
-    : QWidget(parent),
+LassoToolsWidget::LassoToolsWidget(QWidget *_parent)
+    : QWidget(_parent),
       mUi(new Ui::LassoToolsWidget)
 {
     mUi->setupUi(this);
@@ -16,9 +16,9 @@ LassoToolsWidget::LassoToolsWidget(QWidget *parent)
 LassoToolsWidget::~LassoToolsWidget()
 {}
 
-void LassoToolsWidget::setContext(ApplicationContext *fContext)
+void LassoToolsWidget::setContext(ApplicationContext *_context)
 {
-    mContext = fContext;
+    mContext = _context;
 }
 
 void LassoToolsWidget::on_actionPolygonalLassoClicked_toggled()

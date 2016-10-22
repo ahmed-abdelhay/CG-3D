@@ -17,7 +17,7 @@ public:
     ApplicationDatastore *dataStore();
 
     // Selection managmenet logic (TODO add into a manager class later)
-    void setSelectedObject(Type* fSelectedObject);
+    void setSelectedObject(Type* _selectedObject);
     Type *getSelectedObject();
 
 private:

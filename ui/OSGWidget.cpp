@@ -21,12 +21,13 @@
 #include "infrastructure/ApplicationContext.h"
 #include "modelObjects/PolygonalLasso.h"
 #include "events/AddLassoPointEvent.h"
+#include "events/ApplyLassoEvent.h"
 
 OSGWidget::OSGWidget(QWidget* _parent, Qt::WindowFlags _flages)
     : QOpenGLWidget(_parent, _flages),
       mGraphicsWindow(new osgViewer::GraphicsWindowEmbedded(x(), y(), _parent->width(), _parent->height())),
       mViewer(new osgViewer::CompositeViewer),
-      mEnableLasso(false)
+      mIsLassoEnabled(false)
 {
     auto aspectRatio = width() / static_cast<float>(height());
 
@@ -88,7 +89,7 @@ void OSGWidget::paintEvent(QPaintEvent* _paintEvent)
     this->makeCurrent();
     this->paintGL();
 
-    if (mEnableLasso)
+    if (mIsLassoEnabled)
     {
         QPainter painter(this);
         painter.setRenderHint(QPainter::Antialiasing);
@@ -125,6 +126,20 @@ void OSGWidget::keyPressEvent(QKeyEvent* _event)
         return;
     }
 
+    if (mIsLassoEnabled)
+    {
+        if (_event->key() == Qt::Key_Enter || _event->key() == Qt::Key_Return)
+        {
+            auto event = std::make_shared<ApplyLassoEvent>();
+            std::vector<osg::Camera*> cameras;
+            mViewer->getCameras(cameras);
+            event->viewMatrix = cameras[0]->getViewMatrix();
+            event->projectionMatrix = cameras[0]->getProjectionMatrix();
+            mContext->publish(event);
+            return;
+        }
+    }
+
     this->getEventQueue()->keyPress(osgGA::GUIEventAdapter::KeySymbol(*keyData));
 }
 
@@ -154,7 +169,7 @@ void OSGWidget::mousePressEvent(QMouseEvent* _event)
     {
     case Qt::LeftButton:
         button = 1;
-        if (mEnableLasso)
+        if (mIsLassoEnabled)
         {
             auto addPointEvent = std::make_shared<AddLassoPointEvent>();
             addPointEvent->lassoPoint = QPoint(_event->x(), _event->y());
@@ -249,17 +264,17 @@ bool OSGWidget::event(QEvent* _event)
 
 void OSGWidget::notifyContainerChanged(const std::shared_ptr<Type> &_object, ContainerChangeType _changeType)
 {
+    update();
     if (_object->metaObject()->className() == PolygonalLassoType)
     {
         if (_changeType == ContainerChangeType::OBJECT_ADDED)
         {
-            mEnableLasso = true;
+            mIsLassoEnabled = true;
         }
         else
         {
-            mEnableLasso = false;
+            mIsLassoEnabled = false;
             mLassoPoints.clear();
-            update();
         }
     }
     else if (_object->metaObject()->className() == ThreeDObjectType)
@@ -276,7 +291,7 @@ void OSGWidget::propertyChanged(Type *_source, const std::string &_propertyName)
         {
             if (auto lasso = dynamic_cast<PolygonalLasso*>(_source))
             {
-                mLassoPoints.push_back(lasso->getPoints().back());
+                mLassoPoints = lasso->getPoints();
             }
         }
     }

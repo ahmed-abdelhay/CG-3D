@@ -5,6 +5,7 @@
 #include <QMessageBox>
 
 #include "infrastructure/ApplicationContext.h"
+#include "infrastructure/SelectionManager.h"
 #include "ui_MeshIOControlWidtet.h"
 #include "events/Read3DObjectEvent.h"
 #include "events/Write3DObjectEvent.h"
@@ -38,7 +39,7 @@ void MeshIOControlWidget::on_actionLoadMeshClicked_triggered()
 
 void MeshIOControlWidget::on_actionSaveMeshClicked_triggered()
 {
-    auto selectedObject = dynamic_cast<ThreeDObject*>(context()->getSelectedObject());
+    auto selectedObject = context()->selectionManager()->getSelectedObject<ThreeDObject>(ThreeDObjectType);
     if (selectedObject == nullptr)
     {
         QMessageBox::warning(this, tr("Write 3D object"),

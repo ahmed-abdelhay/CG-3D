@@ -1,11 +1,12 @@
 #pragma once
 
-#include "EventPublisher.h"
-#include "ContextChangedPublisher.h"
+#include "infrastructure/EventPublisher.h"
+#include "infrastructure/ContextChangedPublisher.h"
 
 #include <memory>
 
 class ApplicationDatastore;
+class SelectionManager;
 class Type;
 
 class ApplicationContext : public EventPublisher, public ContextChangedPublisher
@@ -16,11 +17,9 @@ public:
 
     ApplicationDatastore *dataStore();
 
-    // Selection managmenet logic (TODO add into a manager class later)
-    void setSelectedObject(Type* _selectedObject);
-    Type *getSelectedObject();
+    SelectionManager *selectionManager();
 
 private:
     std::unique_ptr<ApplicationDatastore> mDataStore;
-    Type* mSelectedObject;
+    std::unique_ptr<SelectionManager> mSelectionManager;
 };

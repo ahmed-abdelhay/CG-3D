@@ -50,7 +50,7 @@ private:
     osgGA::EventQueue* getEventQueue() const;
 
     QPolygon mLassoPoints;
-    bool mEnableLasso;
+    bool mIsLassoEnabled;
 
     osg::ref_ptr<osgViewer::GraphicsWindowEmbedded> mGraphicsWindow;
     osg::ref_ptr<osgViewer::CompositeViewer> mViewer;

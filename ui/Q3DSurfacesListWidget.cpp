@@ -3,6 +3,7 @@
 #include <QColor>
 
 #include "infrastructure/ApplicationContext.h"
+#include "infrastructure/SelectionManager.h"
 #include "modelObjects/ThreeDObject.h"
 #include "infrastructure/Type.h"
 #include "events/Change3DObjectColorEvent.h"
@@ -81,7 +82,7 @@ void Q3DSurfacesListWidget::selectionChanged()
     {
         for (auto index : selectionModel()->selectedIndexes())
         {
-            context()->setSelectedObject(mSurfacesList[index.row()]);
+            context()->selectionManager()->setSelectedObject(ThreeDObjectType, mSurfacesList[index.row()]);
         }
     }
 }

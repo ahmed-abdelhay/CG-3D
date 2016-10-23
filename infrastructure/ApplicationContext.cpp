@@ -1,11 +1,12 @@
 #include "ApplicationContext.h"
 #include <string>
-
-#include "ApplicationDatastore.h"
+#include "infrastructure/SelectionManager.h"
+#include "infrastructure/ApplicationDatastore.h"
 #include "infrastructure/Type.h"
 
 ApplicationContext::ApplicationContext()
-    :mDataStore(new ApplicationDatastore())
+    :mDataStore(new ApplicationDatastore()),
+      mSelectionManager(new SelectionManager())
 {
     connect(mDataStore.get(),
             SIGNAL(containerChanged(const std::shared_ptr<Type>&, ContainerChangeType)),
@@ -26,12 +27,7 @@ ApplicationDatastore *ApplicationContext::dataStore()
     return mDataStore.get();
 }
 
-void ApplicationContext::setSelectedObject(Type *_selectedObject)
+SelectionManager *ApplicationContext::selectionManager()
 {
-    mSelectedObject = _selectedObject;
-}
-
-Type *ApplicationContext::getSelectedObject()
-{
-    return mSelectedObject;
+    return mSelectionManager.get();
 }

@@ -3,6 +3,7 @@
 
 #include "core/TriMesh.h"
 #include "infrastructure/ApplicationContext.h"
+#include "infrastructure/SelectionManager.h"
 #include "infrastructure/ApplicationDatastore.h"
 #include "infrastructure/Event.h"
 #include "events/DeleteSelected3DObjectEvent.h"
@@ -49,10 +50,10 @@ void ThreeDObjectsController::handleChange3DObjectColorEvent(const std::shared_p
 
 void ThreeDObjectsController::handleDeleteSelected3DObjectEvent(const std::shared_ptr<DeleteSelected3DObjectEvent> &_event)
 {
-    if (auto selected3DObject = dynamic_cast<ThreeDObject*>(context()->getSelectedObject()))
+    if (auto selected3DObject = context()->selectionManager()->getSelectedObject<ThreeDObject>(ThreeDObjectType))
     {
         context()->dataStore()->removeObject(selected3DObject->getID());
-        context()->setSelectedObject(nullptr);
+        context()->selectionManager()->setSelectedObject(ThreeDObjectType, nullptr);
     }
     else
     {

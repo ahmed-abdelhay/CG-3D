@@ -8,6 +8,7 @@
 
 class LassoToolChangeEvent;
 class AddLassoPointEvent;
+class ApplyLassoEvent;
 
 class LassoToolsController : public Type, public ApplicationContextProvider, public EventHandler
 {
@@ -22,4 +23,5 @@ private:
 
     void handleLassoToolStateChangeEvent(const std::shared_ptr<LassoToolChangeEvent>& _event);
     void handleAddLassoPointEvent(const std::shared_ptr<AddLassoPointEvent>& _event);
+    void handleApplyLassoEvent(const std::shared_ptr<ApplyLassoEvent>& _event);
 };

@@ -46,7 +46,9 @@ SOURCES += \
     ui/LassoToolsWidget.cpp \
     events/LassoToolChangeEvent.cpp \
     controllers/LassoToolsController.cpp \
-    events/AddLassoPointEvent.cpp
+    events/AddLassoPointEvent.cpp \
+    events/ApplyLassoEvent.cpp \
+    infrastructure/SelectionManager.cpp
 
 HEADERS  += \
     controllers/ApplicationManager.h \
@@ -83,7 +85,9 @@ HEADERS  += \
     ui/LassoToolsWidget.h \
     events/LassoToolChangeEvent.h \
     controllers/LassoToolsController.h \
-    events/AddLassoPointEvent.h
+    events/AddLassoPointEvent.h \
+    events/ApplyLassoEvent.h \
+    infrastructure/SelectionManager.h
 
 FORMS    += \
     ui/MainWindow.ui \

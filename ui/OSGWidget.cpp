@@ -1,5 +1,7 @@
 #include "OSGWidget.h"
 
+#include <OpenMesh/Core/Geometry/VectorT.hh>
+
 #include <osg/Camera>
 
 #include <osg/Geode>
@@ -172,7 +174,7 @@ void OSGWidget::mousePressEvent(QMouseEvent* _event)
         if (mIsLassoEnabled)
         {
             auto addPointEvent = std::make_shared<AddLassoPointEvent>();
-            addPointEvent->lassoPoint = QPoint(_event->x(), _event->y());
+            addPointEvent->lassoPoint = OpenMesh::Vec3f(_event->x() / static_cast<float>(width()), _event->y() / static_cast<float>(height()), 0);
             mContext->publish(addPointEvent);
         }
         break;
@@ -291,7 +293,9 @@ void OSGWidget::propertyChanged(Type *_source, const std::string &_propertyName)
         {
             if (auto lasso = dynamic_cast<PolygonalLasso*>(_source))
             {
-                mLassoPoints = lasso->getPoints();
+                mLassoPoints.clear();
+                for (const auto point : lasso->getPoints())
+                    mLassoPoints.push_back(QPoint(point[0]* width(), point[1] * height()));
             }
         }
     }

@@ -7,13 +7,13 @@ PolygonalLasso::PolygonalLasso()
 PolygonalLasso::~PolygonalLasso()
 {}
 
-void PolygonalLasso::insertPoint(const QPoint &_point)
+void PolygonalLasso::insertPoint(const OpenMesh::Vec3f &_point)
 {
     mLassoPoints.push_back(_point);
     emit propertyChanged(this, LassoPointsType);
 }
 
-QPolygon PolygonalLasso::getPoints() const
+std::vector<OpenMesh::Vec3f> PolygonalLasso::getPoints() const
 {
     return mLassoPoints;
 }

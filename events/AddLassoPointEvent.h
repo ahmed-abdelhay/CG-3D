@@ -1,11 +1,11 @@
 #pragma once
 
-#include<QPoint>
+#include <OpenMesh/Core/Geometry/VectorT.hh>
 #include "infrastructure/Event.h"
 
 class AddLassoPointEvent : public Event
 {
 public:
     AddLassoPointEvent();
-    QPoint lassoPoint;
+    OpenMesh::Vec3f lassoPoint;
 };

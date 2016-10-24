@@ -72,15 +72,15 @@ void LassoToolsController::handleApplyLassoEvent(const std::shared_ptr<ApplyLass
 {
     if (auto selected3DSurface = mContext->selectionManager()->getSelectedObject<ThreeDObject>(ThreeDObjectType))
     {
-        auto viewProjectionMatrixInverse = osg::Matrixd::inverse(_event->projectionMatrix * _event->viewMatrix);
+        auto viewProjectionMatrixInverse = osg::Matrixd::inverse(_event->viewMatrix * _event->projectionMatrix);
         auto lasso = std::dynamic_pointer_cast<PolygonalLasso>(mContext->dataStore()->getAllObjectOfType(PolygonalLassoType)[0]);
         std::vector<osg::Vec3d> topPoints, basePoints;
         std::ofstream fout("/home/ahmed/test.xyz");
 
         for (const auto& point : lasso->getPoints())
         {
-            auto topPoint = viewProjectionMatrixInverse * osg::Vec3d(point.x(), point.y(), -1);
-            auto basePoint = viewProjectionMatrixInverse * osg::Vec3d(point.x(), point.y(), 1);
+            auto topPoint = osg::Vec3d(point[0], point[1], -1) * viewProjectionMatrixInverse;
+            auto basePoint = osg::Vec3d(point[0], point[1], 1) * viewProjectionMatrixInverse;
             topPoints.emplace_back(topPoint);
             basePoints.emplace_back(basePoint);
             fout << topPoint[0] << " " << topPoint[1] << " " << topPoint[2] <<std::endl;

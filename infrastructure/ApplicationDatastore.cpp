@@ -27,9 +27,7 @@ void ApplicationDatastore::removeObject(const std::shared_ptr<Type> &_object)
     if (itr != mDataStore.end())
     {
         emit containerChanged(_object, ContainerChangeType::OBJECT_REMOVED);
-        auto index = std::distance(mDataStore.begin(), itr) - 1;
-        std::swap(mDataStore[index], mDataStore.back());
-        mDataStore.pop_back();
+        mDataStore.erase(std::remove(mDataStore.begin(), mDataStore.end(), _object), mDataStore.end());
     }
 }
 

@@ -15,6 +15,7 @@ public:
     virtual ~PolygonalLasso();
 
     void insertPoint(const OpenMesh::Vec3f& _point);
+    void clearPoints();
 
     std::vector<OpenMesh::Vec3f> getPoints() const;
 

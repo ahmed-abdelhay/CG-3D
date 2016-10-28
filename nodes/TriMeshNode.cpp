@@ -98,8 +98,15 @@ void TriMeshNode::update()
             (*indices)[counter++] = vh.idx();
     }
 
-    osg::ref_ptr<osg::Vec4Array> colors = new osg::Vec4Array(1);
-    (*colors)[0].set(mColor[0], mColor[1], mColor[2], mColor[3]);
+    osg::ref_ptr<osg::Vec4Array> colors = new osg::Vec4Array(mMesh->n_faces());
+
+    auto selectedFaces = mMesh->getSelectedFaces();
+
+    for (int i = 0; i < mMesh->n_faces(); ++i)
+        (*colors)[i].set(mColor[0], mColor[1], mColor[2], mColor[3]);
+
+    for (const auto& fh : selectedFaces)
+        (*colors)[fh.idx()].set(1.0f, 0.0f, 0.0f, 1.0f);
 
     osg::ref_ptr<osg::Geometry> geometry = new osg::Geometry;
     geometry->setVertexArray(vertices.get());
@@ -107,7 +114,7 @@ void TriMeshNode::update()
     geometry->addPrimitiveSet(indices.get());
     geometry->setNormalBinding(osg::Geometry::BIND_PER_VERTEX);
     geometry->setColorArray(colors);
-    geometry->setColorBinding(osg::Geometry::BIND_OVERALL);
+    geometry->setColorBinding(osg::Geometry::BIND_PER_PRIMITIVE_SET);
 
     if (getNumDrawables() == 0)
         addDrawable(geometry);

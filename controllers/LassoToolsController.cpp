@@ -12,6 +12,7 @@
 #include <osg/Matrixd>
 #include <osg/Vec3d>
 
+#include <QDebug>
 #include <fstream>
 
 LassoToolsController::LassoToolsController()
@@ -70,21 +71,61 @@ void LassoToolsController::handleAddLassoPointEvent(const std::shared_ptr<AddLas
 
 void LassoToolsController::handleApplyLassoEvent(const std::shared_ptr<ApplyLassoEvent> &_event)
 {
+    auto isPointInsidePolygon = [](const std::vector<OpenMesh::Vec3f>& _polygon, const OpenMesh::Vec3f& _point) -> bool
+    {
+        int i, j;
+        bool result = false;
+        auto polygonLassoPointsCount = _polygon.size();
+
+        for (i = 0, j = polygonLassoPointsCount - 1; i < polygonLassoPointsCount; j = i++)
+        {
+            if ( ((_polygon[i][1] > _point[1]) != (_polygon[j][1] > _point[1])) &&
+                 (_point[0] < (_polygon[j][0] - _polygon[i][0]) * (_point[1] - _polygon[i][1]) / (_polygon[j][1] - _polygon[i][1]) + _polygon[i][0]) )
+                result = !result;
+        }
+        return result;
+    };
+
     if (auto selected3DSurface = mContext->selectionManager()->getSelectedObject<ThreeDObject>(ThreeDObjectType))
     {
-        auto viewProjectionMatrixInverse = osg::Matrixd::inverse(_event->viewMatrix * _event->projectionMatrix);
+        auto viewProjectionMatrix = _event->viewMatrix * _event->projectionMatrix;
         auto lasso = std::dynamic_pointer_cast<PolygonalLasso>(mContext->dataStore()->getAllObjectOfType(PolygonalLassoType)[0]);
-        std::vector<osg::Vec3d> topPoints, basePoints;
-        std::ofstream fout("/home/ahmed/test.xyz");
+        auto lassoPoints = lasso->getPoints();
 
-        for (const auto& point : lasso->getPoints())
+        auto mesh = selected3DSurface->getMesh();
+        mesh->clearFaceSelection();
+
+
+        for (auto& point : lassoPoints)
         {
-            auto topPoint = osg::Vec3d(point[0], point[1], -1) * viewProjectionMatrixInverse;
-            auto basePoint = osg::Vec3d(point[0], point[1], 1) * viewProjectionMatrixInverse;
-            topPoints.emplace_back(topPoint);
-            basePoints.emplace_back(basePoint);
-            fout << topPoint[0] << " " << topPoint[1] << " " << topPoint[2] <<std::endl;
-            fout << basePoint[0] << " " << basePoint[1] << " " << basePoint[2] <<std::endl;
+            point = 2 * point - OpenMesh::Vec3f(1,1,0);
         }
+
+        mesh->request_face_status();
+        mesh->request_vertex_status();
+        mesh->request_edge_status();
+
+        for (const auto& fh : mesh->faces())
+        {
+            for (const auto& vh : mesh->fv_range(fh))
+            {
+                auto point = mesh->point(vh);
+                auto projectedPoint = osg::Vec4d(point[0], point[1], point[2], 1.0f) * viewProjectionMatrix;
+                projectedPoint /= projectedPoint[3];
+                if (isPointInsidePolygon(lassoPoints, OpenMesh::Vec3f(projectedPoint[0], projectedPoint[1], 0.0f)))
+                {
+                    mesh->delete_face(fh, false);
+                    break;
+                }
+            }
+        }
+
+        mesh->garbage_collection();
+
+        mesh->release_face_status();
+        mesh->release_vertex_status();
+        mesh->release_edge_status();
+
+        selected3DSurface->setMesh(mesh);
     }
 }

@@ -36,12 +36,13 @@ OSGWidget::OSGWidget(QWidget* _parent, Qt::WindowFlags _flages)
     osg::Camera* camera = new osg::Camera;
     camera->setViewport(x(), y(), width(), height());
     camera->setClearColor(osg::Vec4( 0.9f, 0.9f, 0.9f, 1.f ) );
-    camera->setProjectionMatrixAsPerspective(30.f, aspectRatio, 1.f, 1000.f);
+    camera->setProjectionMatrixAsPerspective(30.f, aspectRatio, -1.f, 10.f);
+    //camera->setProjectionMatrix(osg::Matrix::ortho(-1,1,-1,1,-1,2));
+
     camera->setGraphicsContext(mGraphicsWindow);
 
     osgViewer::View* view = new osgViewer::View;
     view->setCamera(camera);
-    view->addEventHandler(new osgViewer::StatsHandler);
 
     osgGA::TrackballManipulator* manipulator = new osgGA::TrackballManipulator;
     manipulator->setAllowThrow( false );
@@ -266,7 +267,6 @@ bool OSGWidget::event(QEvent* _event)
 
 void OSGWidget::notifyContainerChanged(const std::shared_ptr<Type> &_object, ContainerChangeType _changeType)
 {
-    update();
     if (_object->metaObject()->className() == PolygonalLassoType)
     {
         if (_changeType == ContainerChangeType::OBJECT_ADDED)
@@ -283,6 +283,7 @@ void OSGWidget::notifyContainerChanged(const std::shared_ptr<Type> &_object, Con
     {
         onHome();
     }
+    update();
 }
 
 void OSGWidget::propertyChanged(Type *_source, const std::string &_propertyName)

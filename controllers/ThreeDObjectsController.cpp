@@ -41,7 +41,7 @@ void ThreeDObjectsController::setContext(ApplicationContext *_context)
 
 void ThreeDObjectsController::handleChange3DObjectColorEvent(const std::shared_ptr<Change3DObjectColorEvent> &_event)
 {
-    if (auto object = dynamic_cast<ThreeDObject*>(_event->object))
+    if (auto object = std::dynamic_pointer_cast<ThreeDObject>(_event->object))
     {
         object->setColor(_event->color);
     }

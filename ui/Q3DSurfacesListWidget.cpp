@@ -55,17 +55,17 @@ void Q3DSurfacesListWidget::notifyContainerChanged(const std::shared_ptr<Type> &
 {
     if (_object->metaObject()->className() == ThreeDObjectType)
     {
-        auto object = dynamic_cast<ThreeDObject*>(_object.get());
+        auto object = std::dynamic_pointer_cast<ThreeDObject>(_object);
         switch (_changeType)
         {
         case ContainerChangeType::OBJECT_ADDED:
-            mSurfacesList.push_back(_object.get());
+            mSurfacesList.push_back(_object);
             insertItem(mSurfacesList.size() - 1, QString::fromStdString(object->getName()));
             break;
         case ContainerChangeType::OBJECT_REMOVED:
             for (int i = 0; i < mSurfacesList.size(); ++i)
             {
-                if (_object.get() == mSurfacesList[i])
+                if (_object->getID() == mSurfacesList[i]->getID())
                 {
                     takeItem(i);
                     mSurfacesList.erase(mSurfacesList.begin() + i);

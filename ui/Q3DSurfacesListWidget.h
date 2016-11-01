@@ -1,6 +1,7 @@
 #pragma once
 
 #include <vector>
+#include <memory>
 #include <QListWidget>
 #include <QModelIndex>
 
@@ -27,5 +28,5 @@ private:
     void propertyChanged(Type *_source, const std::string &_propertyName) override;
     void notifyContainerChanged(const std::shared_ptr<Type> &_object, ContainerChangeType _changeType) override;
 
-    std::vector<Type*> mSurfacesList;
+    std::vector<std::shared_ptr<Type>> mSurfacesList;
 };

@@ -127,7 +127,6 @@ void LassoToolsController::handleApplyLassoEvent(const std::shared_ptr<ApplyLass
             if (mesh->n_faces() == 0)
             {
                 context()->dataStore()->removeObject(selected3DSurface->getID());
-                context()->selectionManager()->setSelectedObject(ThreeDObjectType, nullptr);
             }
             else
                 selected3DSurface->setMesh(mesh);

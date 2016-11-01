@@ -53,7 +53,7 @@ void MeshIOControlWidget::on_actionSaveMeshClicked_triggered()
 
     auto writeMeshEvent = std::make_shared<Write3DObjectEvent>();
 
-    writeMeshEvent->object = selectedObject;
+    writeMeshEvent->object = selectedObject.get();
     writeMeshEvent->meshFileName = meshFileName.toStdString();
     mContext->publish(writeMeshEvent);
 }

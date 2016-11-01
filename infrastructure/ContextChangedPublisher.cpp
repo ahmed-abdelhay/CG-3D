@@ -46,8 +46,6 @@ void ContextChangedPublisher::publishContainerChanged(const std::shared_ptr<Type
         observer->notifyContainerChanged(_object, _changeType);
 }
 
-
-
 void ContextChangedPublisher::publishPropertyChanged(Type *_sourceObject, const std::string &_propertyType)
 {
     std::string objectType = _sourceObject->metaObject()->className();
